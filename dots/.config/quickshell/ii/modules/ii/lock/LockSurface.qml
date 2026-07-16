@@ -10,7 +10,9 @@ import qs.modules.common.functions
 import qs.modules.common.panels.lock
 import qs.modules.ii.bar as Bar
 import Quickshell
+import Quickshell.Io
 import Quickshell.Services.SystemTray
+import qs.modules.ii.mediaControls
 
 MouseArea {
     id: root
@@ -18,6 +20,45 @@ MouseArea {
     property bool active: false
     property bool showInputField: active || context.currentText.length > 0
     readonly property bool requirePasswordToPower: Config.options.lock.security.requirePasswordToPower
+
+    readonly property bool mediaPlayerAvailable: Config.options.lock.enableMedia && MprisController.activePlayer !== null && MprisController.activePlayer.trackTitle
+    property bool mediaLoaderActive: false
+
+    onMediaPlayerAvailableChanged: {
+        if (mediaPlayerAvailable) {
+            // Player appeared: activate loader (entry anim fires via onLoaded)
+            mediaLoaderActive = true
+        } else {
+            // Player disappeared: run exit anim, deactivate loader when done
+            if (lockscreenMediaController.item) {
+                entryAnim.stop()
+                mediaExitAnim.restart()
+            } else {
+                mediaLoaderActive = false
+            }
+        }
+    }
+
+    property list<real> visualizerPoints: []
+
+    Process {
+        id: cavaProc
+        running: root.mediaLoaderActive && root.mediaPlayerAvailable
+        onRunningChanged: {
+            if (!cavaProc.running)
+                root.visualizerPoints = [];
+        }
+        command: ["cava", "-p", `${FileUtils.trimFileProtocol(Directories.scriptPath)}/cava/raw_output_config.txt`]
+        stdout: SplitParser {
+            onRead: data => {
+                let points = data.split(";").map(p => parseFloat(p.trim())).filter(p => !isNaN(p));
+                root.visualizerPoints = points;
+            }
+        }
+    }
+
+    property var pendingAction: null
+    property bool showConfirmDialog: false
 
     // Force focus on entry
     function forceFieldFocus() {
@@ -95,6 +136,87 @@ MouseArea {
     //         text: "[[ DEBUG BYPASS ]]"
     //     }
     // }
+
+    Loader {
+        id: lockscreenMediaController
+
+        // Controlled manually via mediaLoaderActive so exit anim can finish
+        // before the item is destroyed.
+        active: root.mediaLoaderActive
+
+        anchors {
+            horizontalCenter: parent.horizontalCenter
+            bottom: mainIsland.top
+            bottomMargin: 15
+        }
+
+        // Driven imperatively — no Behavior, so start values apply instantly.
+        property real mediaScale: 0.85
+        property real mediaOpacity: 0.0
+
+        scale: mediaScale * root.toolbarScale
+        opacity: mediaOpacity * root.toolbarOpacity
+
+        // Entry: fires after sourceComponent is fully instantiated.
+        onLoaded: {
+            mediaScale   = 0.85
+            mediaOpacity = 0.0
+            entryAnim.restart()
+        }
+
+        ParallelAnimation {
+            id: entryAnim
+            NumberAnimation {
+                target: lockscreenMediaController
+                property: "mediaScale"
+                to: 1.0
+                duration: Appearance.animation.elementMove.duration * 1.2
+                easing.type: Easing.OutBack
+                easing.overshoot: 1.2
+            }
+            NumberAnimation {
+                target: lockscreenMediaController
+                property: "mediaOpacity"
+                to: 1.0
+                duration: Appearance.animation.elementMoveFast.duration
+                easing.type: Easing.OutCubic
+            }
+        }
+
+        // Exit: deactivates loader when animation finishes.
+        SequentialAnimation {
+            id: mediaExitAnim
+            ParallelAnimation {
+                NumberAnimation {
+                    target: lockscreenMediaController
+                    property: "mediaScale"
+                    to: 0.85
+                    duration: Appearance.animation.elementMoveFast.duration
+                    easing.type: Easing.InBack
+                    easing.overshoot: 1.2
+                }
+                NumberAnimation {
+                    target: lockscreenMediaController
+                    property: "mediaOpacity"
+                    to: 0.0
+                    duration: Appearance.animation.elementMoveFast.duration
+                    easing.type: Easing.InCubic
+                }
+            }
+            // Only destroy the item after the animation has fully completed.
+            ScriptAction {
+                script: root.mediaLoaderActive = false
+            }
+        }
+
+        sourceComponent: PlayerControl {
+            player: MprisController.activePlayer
+            visualizerPoints: root.visualizerPoints
+            implicitWidth: Appearance.sizes.mediaControlsWidth
+            implicitHeight: Appearance.sizes.mediaControlsHeight
+            radius: Appearance.rounding.screenRounding - Appearance.sizes.hyprlandGapsOut + 1
+        }
+    }
 
     // Main toolbar: password box
     Toolbar {
@@ -335,7 +457,8 @@ MouseArea {
 
         onClicked: {
             if (!root.requirePasswordToPower) {
-                root.context.unlocked(guardedBtn.targetAction);
+                root.pendingAction = guardedBtn.targetAction;
+                root.showConfirmDialog = true;
                 return;
             }
             if (root.context.targetAction === guardedBtn.targetAction) {
@@ -371,6 +494,173 @@ MouseArea {
             anchors.verticalCenter: parent.verticalCenter
             text: pair.text
             color: pair.color
+        }
+    }
+
+    // Confirmation popup — close animation
+    property bool confirmExecuteOnClose: false
+
+    function closeConfirmPopup(execute) {
+        confirmPopup.confirmExecuteOnClose = execute;
+        closePopupAnim.restart();
+    }
+
+    SequentialAnimation {
+        id: closePopupAnim
+        ParallelAnimation {
+            NumberAnimation {
+                target: confirmPopup
+                property: "scale"
+                to: 0
+                duration: Appearance.animationsEnabled ? 250 : 0
+                easing.type: Easing.InBack
+                easing.overshoot: 1.4
+            }
+            NumberAnimation {
+                target: confirmPopup
+                property: "opacity"
+                to: 0
+                duration: Appearance.animationsEnabled ? 250 : 0
+                easing.type: Easing.InBack
+            }
+        }
+        ScriptAction {
+            script: {
+                if (confirmPopup.confirmExecuteOnClose) {
+                    root.context.unlocked(root.pendingAction);
+                }
+                root.showConfirmDialog = false;
+                root.pendingAction = null;
+            }
+        }
+    }
+
+    // Transparent scrim to catch outside clicks and dismiss the popup
+    MouseArea {
+        anchors.fill: parent
+        z: 998
+        visible: root.showConfirmDialog
+        enabled: root.showConfirmDialog
+        acceptedButtons: Qt.AllButtons
+        hoverEnabled: true
+        onClicked: root.closeConfirmPopup(false)
+    }
+
+    // Confirmation popup — inline, positioned above the right toolbar
+    Rectangle {
+        id: confirmPopup
+        z: 999
+        anchors {
+            bottom: rightIsland.top
+            bottomMargin: 8
+            right: rightIsland.right
+        }
+
+        visible: root.showConfirmDialog
+        width: Math.max(textColumn.implicitWidth, popupButtons.width) + 32
+        height: textColumn.implicitHeight + popupButtons.height + 40
+        radius: Appearance.rounding.large
+        color: Appearance.m3colors.m3surfaceContainerHigh
+
+        property bool confirmExecuteOnClose: root.confirmExecuteOnClose
+
+        transformOrigin: Item.BottomRight
+        scale: root.showConfirmDialog ? 1 : 0
+        opacity: root.showConfirmDialog ? 1 : 0
+
+        Behavior on scale {
+            NumberAnimation {
+                duration: Appearance.animationsEnabled ? 350 : 0
+                easing.type: Easing.OutBack
+                easing.overshoot: 1.8
+            }
+        }
+        Behavior on opacity {
+            NumberAnimation {
+                duration: Appearance.animationsEnabled ? 180 : 0
+                easing.type: Easing.OutCubic
+            }
+        }
+
+        StyledRectangularShadow {
+            target: confirmPopup
+        }
+
+        Column {
+            id: textColumn
+            anchors {
+                top: parent.top
+                left: parent.left
+                right: parent.right
+                margins: 16
+            }
+            spacing: 6
+
+            StyledText {
+                width: parent.width
+                text: root.pendingAction === LockContext.ActionEnum.Poweroff
+                    ? Translation.tr("Shutdown now?")
+                    : Translation.tr("Restart now?")
+                color: Appearance.m3colors.m3onSurface
+                font.pixelSize: Appearance.font.pixelSize.small
+                wrapMode: Text.Wrap
+            }
+
+            StyledText {
+                width: parent.width
+                text: Translation.tr("You and any other people using this PC could lose unsaved work.")
+                color: Appearance.m3colors.m3onSurfaceVariant
+                font.pixelSize: Appearance.font.pixelSize.smaller
+                wrapMode: Text.Wrap
+            }
+        }
+
+        Row {
+            id: popupButtons
+            anchors {
+                bottom: parent.bottom
+                right: parent.right
+                margins: 12
+            }
+            spacing: 15
+
+            StyledText {
+                anchors.verticalCenter: parent.verticalCenter
+                text: Translation.tr("Cancel")
+                color: Appearance.colors.colOnSurface
+                font.pixelSize: Appearance.font.pixelSize.small
+
+                MouseArea {
+                    anchors.fill: parent
+                    anchors.margins: -4
+                    cursorShape: Qt.PointingHandCursor
+                    onClicked: root.closeConfirmPopup(false)
+                }
+            }
+
+            // Confirm button (filled primary)
+            Rectangle {
+                width: confirmText.implicitWidth + 20
+                height: 32
+                radius: Appearance.rounding.full
+                color: Appearance.colors.colPrimary
+
+                StyledText {
+                    id: confirmText
+                    anchors.centerIn: parent
+                    text: root.pendingAction === LockContext.ActionEnum.Poweroff
+                        ? Translation.tr("Shutdown")
+                        : Translation.tr("Restart")
+                    color: Appearance.colors.colOnPrimary
+                    font.pixelSize: Appearance.font.pixelSize.small
+                }
+
+                MouseArea {
+                    anchors.fill: parent
+                    cursorShape: Qt.PointingHandCursor
+                    onClicked: root.closeConfirmPopup(true)
+                }
+            }
         }
     }
 }

@@ -146,6 +146,15 @@ ContentPage {
         title: Translation.tr("Lock screen")
 
         ConfigSwitch {
+            buttonIcon: "music_video"
+            text: Translation.tr('Allow Media Player on lock screen')
+            checked: Config.options.lock.enableMedia
+            onCheckedChanged: {
+                Config.options.lock.enableMedia = checked;
+            }
+        }
+
+        ConfigSwitch {
             buttonIcon: "water_drop"
             text: Translation.tr('Use Hyprlock (instead of Quickshell)')
             checked: Config.options.lock.useHyprlock
@@ -484,6 +493,34 @@ ContentPage {
             checked: Config.options.sidebar.translator.enable
             onCheckedChanged: {
                 Config.options.sidebar.translator.enable = checked;
+            }
+        }
+
+        ContentSubsection {
+            title: Translation.tr("Sidebar size")
+
+            ConfigSpinBox {
+                icon: "arrow_range"
+                text: Translation.tr("Sidebar width")
+                value: Config.options.sidebar.width
+                from: 1
+                to: 1000
+                stepSize: 1
+                onValueChanged: {
+                    Config.options.sidebar.width = value;
+                }
+            }
+
+            ConfigSpinBox {
+                icon: "arrow_range"
+                text: Translation.tr("Sidebar width extended")
+                value: Config.options.sidebar.widthExtended
+                from: 1
+                to: 1250
+                stepSize: 1
+                onValueChanged: {
+                    Config.options.sidebar.widthExtended = value;
+                }
             }
         }
 

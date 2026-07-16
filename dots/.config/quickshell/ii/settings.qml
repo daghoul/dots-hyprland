@@ -50,6 +50,11 @@ ApplicationWindow {
             component: "modules/settings/InterfaceConfig.qml"
         },
         {
+            name: Translation.tr("Privacy"),
+            icon: "privacy_tip",
+            component: "modules/settings/PrivacyConfig.qml"
+        },
+        {
             name: Translation.tr("Services"),
             icon: "settings",
             component: "modules/settings/ServicesConfig.qml"
@@ -259,7 +264,7 @@ ApplicationWindow {
                             properties: "opacity"
                             from: 1
                             to: 0
-                            duration: 100
+                            duration: Appearance.animationsEnabled ? 100 : 0
                             easing.type: Appearance.animation.elementMoveExit.type
                             easing.bezierCurve: Appearance.animationCurves.emphasizedFirstHalf
                         }
@@ -281,7 +286,7 @@ ApplicationWindow {
                                 properties: "opacity"
                                 from: 0
                                 to: 1
-                                duration: 200
+                                duration: Appearance.animationsEnabled ? 200 : 0
                                 easing.type: Appearance.animation.elementMoveEnter.type
                                 easing.bezierCurve: Appearance.animationCurves.emphasizedLastHalf
                             }
@@ -289,7 +294,7 @@ ApplicationWindow {
                                 target: pageLoader
                                 properties: "anchors.topMargin"
                                 to: 0
-                                duration: 200
+                                duration: Appearance.animationsEnabled ? 200 : 0
                                 easing.type: Appearance.animation.elementMoveEnter.type
                                 easing.bezierCurve: Appearance.animationCurves.emphasizedLastHalf
                             }

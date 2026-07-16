@@ -13,7 +13,9 @@ Scope {
 
     PanelWindow {
         id: panelWindow
-        visible: GlobalStates.sidebarRightOpen
+        // Don't map over a game (see SidebarLeft): it'd sit under the fullscreen and freeze
+        // the game's pointer lock. Prevents "disabling" sidebar when Hyprland is not in fullscreen.
+        visible: GlobalStates.sidebarRightOpen && !GameMode.anyFullscreen
 
         function hide() {
             GlobalStates.sidebarRightOpen = false;

@@ -1,4 +1,5 @@
 import QtQuick
+import qs.modules.common
 
 // idx1 is the "leading" indicator position, idx2 is the "following" one
 // The former animates faster than the latter, see the NumberAnimations below
@@ -8,8 +9,8 @@ QtObject {
 
     property real idx1: index
     property real idx2: index
-    property int idx1Duration: 100
-    property int idx2Duration: 300
+    property int idx1Duration: Appearance.animationsEnabled ? 100 : 0
+    property int idx2Duration: Appearance.animationsEnabled ? 300 : 0
 
     Behavior on idx1 {
         NumberAnimation {

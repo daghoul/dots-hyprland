@@ -53,7 +53,7 @@ Item { // Notification item area
             target: background.anchors
             property: "leftMargin"
             to: (root.width + root.dismissOvershoot) * (destroyAnimation.left ? -1 : 1)
-            duration: Appearance.animation.elementMove.duration
+            duration: Appearance.animationsEnabled ? Appearance.animation.elementMove.duration : 0 
             easing.type: Appearance.animation.elementMove.type
             easing.bezierCurve: Appearance.animation.elementMove.bezierCurve
         }
@@ -119,7 +119,7 @@ Item { // Notification item area
         Behavior on anchors.leftMargin {
             enabled: !dragManager.dragging
             NumberAnimation {
-                duration: Appearance.animation.elementMove.duration
+                duration: Appearance.animationsEnabled ? Appearance.animation.elementMove.duration : 0
                 easing.type: Appearance.animation.elementMove.type
                 easing.bezierCurve: Appearance.animationCurves.expressiveFastSpatial
             }

@@ -302,6 +302,32 @@ Item { // Bar content region
                             id: notificationUnreadCount
                         }
                     }
+                    Revealer {
+                        reveal: Privacy.micActive && Config.options.privacy.micActiveIndicator
+                        Layout.fillHeight: true
+                        Layout.rightMargin: reveal ? indicatorsRowLayout.realSpacing : 0
+                        Behavior on Layout.rightMargin {
+                            animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
+                        }
+                        MaterialSymbol {
+                            text: "mic"
+                            iconSize: Appearance.font.pixelSize.larger
+                            color: "#f28b82"
+                        }
+                    }
+                    Revealer {
+                        reveal: Privacy.screenSharing && Config.options.privacy.screenShareIndicator
+                        Layout.fillHeight: true
+                        Layout.rightMargin: reveal ? indicatorsRowLayout.realSpacing : 0
+                        Behavior on Layout.rightMargin {
+                            animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
+                        }
+                        MaterialSymbol {
+                            text: "screen_share"
+                            iconSize: Appearance.font.pixelSize.larger
+                            color: "#f28b82"
+                        }
+                    }
                     MaterialSymbol {
                         text: Network.materialSymbol
                         iconSize: Appearance.font.pixelSize.larger
@@ -315,6 +341,11 @@ Item { // Bar content region
                         color: rightSidebarButton.colText
                     }
                 }
+            }
+
+            RecordingBarIndicator {
+                id: recordingBarIndicator
+                Layout.alignment: Qt.AlignVCenter
             }
 
             SysTray {

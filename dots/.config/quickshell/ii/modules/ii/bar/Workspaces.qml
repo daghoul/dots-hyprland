@@ -298,14 +298,6 @@ ButtonMouseArea {
             implicitWidth: root.vertical ? undirectionalWidth : undirectionalLength
             implicitHeight: root.vertical ? undirectionalLength : undirectionalWidth
 
-            StyledText {
-                id: specialWsText
-                anchors.centerIn: parent
-                text: (!root.vertical ? wsModel.specialWorkspaceName : "S")
-                color: Appearance.colors.colOnPrimary
-                font.pixelSize: root.specialTextSize
-            }
-
             Behavior on undirectionalLength {
                 animation: Appearance.animation.elementMoveEnter.numberAnimation.createObject(this)
             }

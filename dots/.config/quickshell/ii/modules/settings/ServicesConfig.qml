@@ -8,6 +8,67 @@ ContentPage {
     forceWidth: true
 
     ContentSection {
+        id: systemUpdate
+        icon: "sync"
+        title: Translation.tr("System Updates")
+
+        readonly property bool updateChecksPresent: Config.options.updates.enableCheck
+
+        ConfigSwitch {
+            text: Translation.tr("Enable system update checks")
+            buttonIcon: "published_with_changes"
+            checked: Config.options.updates.enableCheck
+            onCheckedChanged: {
+                Config.options.updates.enableCheck = checked;
+            }
+        }
+
+        ContentSubsection {
+            visible: systemUpdate.updateChecksPresent
+            title: Translation.tr("System update check settings")
+            Layout.fillWidth: false
+            ConfigSpinBox {
+                visible: systemUpdate.updateChecksPresent
+                icon: "hourglass"
+                text: Translation.tr("Update check interval (in minutes)")
+                value: Config.options.updates.checkInterval
+                from: 10
+                to: 120
+                stepSize: 1
+                onValueChanged: {
+                    Config.options.updates.checkInterval = value;
+                }
+            }
+
+            ConfigSpinBox {
+                visible: systemUpdate.updateChecksPresent
+                icon: "av_timer"
+                text: Translation.tr("Advise update threshold (in packages)")
+                value: Config.options.updates.adviseUpdateThreshold
+                from: 10
+                to: 100
+                stepSize: 1
+                onValueChanged: {
+                    Config.options.updates.adviseUpdateThreshold = value;
+                }
+            }
+
+            ConfigSpinBox {
+                visible: systemUpdate.updateChecksPresent
+                icon: "sync_problem"
+                text: Translation.tr("Strongly advise update threshold (in packages)")
+                value: Config.options.updates.stronglyAdviseUpdateThreshold
+                from: 200
+                to: 500
+                stepSize: 1
+                onValueChanged: {
+                    Config.options.updates.stronglyAdviseUpdateThreshold = value;
+                }
+            }
+        }
+    }
+
+    ContentSection {
         icon: "cell_tower"
         title: Translation.tr("Networking")
 

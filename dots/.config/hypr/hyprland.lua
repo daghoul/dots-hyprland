@@ -7,7 +7,7 @@ require("hyprland.services")
 -------------------
 ---- AUTOSTART ----
 -------------------
-require("hyprland.autostart")
+require("hyprland.execs")
 
 -----------------
 ---- GENERAL ----

@@ -133,7 +133,7 @@ Singleton {
                 property string networkEthernet: "kcmshell6 kcm_networkmanagement"
                 property string taskManager: "alacritty -e btop"
                 property string terminal: "alacritty" // This is only for shell actions
-                property string update: "alacritty --hold -e fish -i -c 'pkexec pacman"
+                property string update: "alacritty --hold -e fish -i -c 'yay -Syu || pkexec pacman -Syu'"
                 property string volumeMixer: `~/.config/hypr/hyprland/scripts/launch_first_available.sh "pavucontrol-qt" "pavucontrol"`
             }
 

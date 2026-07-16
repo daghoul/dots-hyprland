@@ -58,11 +58,6 @@ Singleton {
 
             property string hyprlandInstanceSignature: ""
 
-            property JsonObject ai: JsonObject {
-                property string model: "gemini-2.5-flash"
-                property real temperature: 0.5
-            }
-
             property JsonObject cheatsheet: JsonObject {
                 property int tabIndex: 0
             }
@@ -74,13 +69,12 @@ Singleton {
                 }
             }
 
-            property JsonObject booru: JsonObject {
-                property bool allowNsfw: false
-                property string provider: "yandere"
-            }
-
             property JsonObject idle: JsonObject {
                 property bool inhibit: false
+            }
+
+            property JsonObject lock: JsonObject {
+                property bool locked: false
             }
 
             property JsonObject overlay: JsonObject {

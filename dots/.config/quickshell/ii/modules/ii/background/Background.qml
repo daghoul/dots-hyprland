@@ -184,13 +184,13 @@ Variants {
                 fillMode: Image.PreserveAspectCrop
                 Behavior on x {
                     NumberAnimation {
-                        duration: 600
+                        duration: Appearance.animationsEnabled ? 600 : 0
                         easing.type: Easing.OutCubic
                     }
                 }
                 Behavior on y {
                     NumberAnimation {
-                        duration: 600
+                        duration: Appearance.animationsEnabled ? 600 : 0
                         easing.type: Easing.OutCubic
                     }
                 }
@@ -206,7 +206,7 @@ Variants {
                 Behavior on scale {
                     NumberAnimation {
                         id: scaleAnim
-                        duration: 400
+                        duration: Appearance.animationsEnabled ? 400 : 0
                         easing.type: Easing.BezierSpline
                         easing.bezierCurve: Appearance.animationCurves.expressiveDefaultSpatial
                     }

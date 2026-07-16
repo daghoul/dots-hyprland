@@ -16,7 +16,7 @@ Item {
     property bool fill: true
     property int fillOverflow: 2
     property bool enableAnimation: true
-    property int animationDuration: 800
+    property int animationDuration: Appearance.animationsEnabled ? 800 : 0
     property var easingType: Easing.OutCubic
     property bool accountForLightBleeding: true
     default property Item textMask: Item {

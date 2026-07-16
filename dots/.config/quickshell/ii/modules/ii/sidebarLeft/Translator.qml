@@ -101,25 +101,39 @@ Item {
     }
 
     ColumnLayout {
-        anchors {
-            fill: parent
-            margins: root.padding
-        }
+        anchors.fill: parent
+        anchors.margins: root.padding
 
         StyledFlickable {
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-            contentHeight: contentColumn.implicitHeight
+            Layout.fillWidth: true; Layout.fillHeight: true; contentHeight: contentColumn.implicitHeight
 
             ColumnLayout {
-                id: contentColumn
-                anchors.fill: parent
+                id: contentColumn; anchors.fill: parent
+                RowLayout { // Target language
+                    Layout.fillWidth: true; spacing: root.padding
 
-                LanguageSelectorButton { // Target language button
-                    id: targetLanguageButton
-                    displayText: root.targetLanguage
-                    onClicked: {
-                        root.showLanguageSelectorDialog(true);
+                    LanguageSelectorButton { // Source language button
+                        id: sourceLanguageButton
+                        Layout.fillWidth: true
+                        displayText: "Source: " + root.sourceLanguage
+                        onClicked: {
+                            root.showLanguageSelectorDialog(false);
+                        }
+                    }
+                    
+                    MaterialSymbol { 
+                        Layout.alignment: Qt.AlignVCenter
+                        text: "sync_alt"; iconSize: Appearance.font.pixelSize.large
+                        color: Appearance.colors.colOnLayer2
+                    }
+
+                    LanguageSelectorButton { // Target language button
+                        id: targetLanguageButton
+                        Layout.fillWidth: true
+                        displayText: "Target: " + root.targetLanguage
+                        onClicked: { 
+                            root.showLanguageSelectorDialog(true); 
+                        }
                     }
                 }
 
@@ -170,50 +184,46 @@ Item {
             }    
         }
 
-        LanguageSelectorButton { // Source language button
-            id: sourceLanguageButton
-            displayText: root.sourceLanguage
-            onClicked: {
-                root.showLanguageSelectorDialog(false);
-            }
-        }
-
-        TextCanvas { // Content input
-            id: inputCanvas
-            isInput: true
-            placeholderText: Translation.tr("Enter text to translate...")
-            onInputTextChanged: {
-                translateTimer.restart();
-            }
-            GroupButton {
-                id: pasteButton
-                baseWidth: height
-                buttonRadius: Appearance.rounding.small
-                contentItem: MaterialSymbol {
-                    anchors.centerIn: parent
-                    horizontalAlignment: Text.AlignHCenter
-                    iconSize: Appearance.font.pixelSize.larger
-                    text: "content_paste"
-                    color: deleteButton.enabled ? Appearance.colors.colOnLayer1 : Appearance.colors.colSubtext
+        RowLayout {
+            Layout.fillWidth: true; spacing: root.padding
+            TextCanvas { // Content input
+                id: inputCanvas
+                isInput: true
+                placeholderText: Translation.tr("Enter text to translate...")
+                Layout.fillWidth: true
+                onInputTextChanged: {
+                    translateTimer.restart();
                 }
-                onClicked: {
-                    root.inputField.text = Quickshell.clipboardText
+                GroupButton {
+                    id: pasteButton
+                    baseWidth: height
+                    buttonRadius: Appearance.rounding.small
+                    contentItem: MaterialSymbol {
+                        anchors.centerIn: parent
+                        horizontalAlignment: Text.AlignHCenter
+                        iconSize: Appearance.font.pixelSize.larger
+                        text: "content_paste"
+                        color: deleteButton.enabled ? Appearance.colors.colOnLayer1 : Appearance.colors.colSubtext
+                    }
+                    onClicked: {
+                        root.inputField.text = Quickshell.clipboardText
+                    }
                 }
-            }
-            GroupButton {
-                id: deleteButton
-                baseWidth: height
-                buttonRadius: Appearance.rounding.small
-                enabled: inputCanvas.inputTextArea.text.length > 0
-                contentItem: MaterialSymbol {
-                    anchors.centerIn: parent
-                    horizontalAlignment: Text.AlignHCenter
-                    iconSize: Appearance.font.pixelSize.larger
-                    text: "close"
-                    color: deleteButton.enabled ? Appearance.colors.colOnLayer1 : Appearance.colors.colSubtext
-                }
-                onClicked: {
-                    root.inputField.text = ""
+                GroupButton {
+                    id: deleteButton
+                    baseWidth: height
+                    buttonRadius: Appearance.rounding.small
+                    enabled: inputCanvas.inputTextArea.text.length > 0
+                    contentItem: MaterialSymbol {
+                        anchors.centerIn: parent
+                        horizontalAlignment: Text.AlignHCenter
+                        iconSize: Appearance.font.pixelSize.larger
+                        text: "close"
+                        color: deleteButton.enabled ? Appearance.colors.colOnLayer1 : Appearance.colors.colSubtext
+                    }
+                    onClicked: {
+                        root.inputField.text = ""
+                    }
                 }
             }
         }

@@ -17,7 +17,7 @@ Item {
     property bool fill: false
     property int fillOverflow: 2
     property bool enableAnimation: true
-    property int animationDuration: 800
+    property int animationDuration: Appearance.animationsEnabled ? 800 : 0
     property var easingType: Easing.OutCubic
 
     implicitWidth: implicitSize

@@ -24,7 +24,6 @@ Singleton {
     property bool screenLocked: false
     property bool screenLockContainsCharacters: false
     property bool screenUnlockFailed: false
-    property bool screenTranslatorOpen: false
     property bool sessionOpen: false
     property bool superDown: false
     property bool superReleaseMightTrigger: true
@@ -37,6 +36,28 @@ Singleton {
             Notifications.markAllRead();
         }
     }
+
+    onScreenLockedChanged: {
+        Persistent.states.lock.locked = root.screenLocked;
+    }
+
+    // Relock after a reload of the same instance; a fresh boot keeps no old lock.
+    function restoreLockState() {
+        if (!Persistent.ready) return;
+        if (!Persistent.isNewHyprlandInstance && Persistent.states.lock.locked) {
+            root.screenLocked = true;
+        }
+    }
+
+    Component.onCompleted: root.restoreLockState()
+
+    Connections {
+        target: Persistent
+        function onReadyChanged() {
+            root.restoreLockState();
+        }
+    }
+
 
     GlobalShortcut {
         name: "workspaceNumber"

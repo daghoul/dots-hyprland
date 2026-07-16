@@ -190,6 +190,15 @@ Item { // Bar content region
                 invertSide: Config?.options.bar.bottom
             }
 
+
+            Bar.RecordingBarIndicator {
+                id: verticalRecordingBarIndicator
+                vertical: true
+                Layout.alignment: Qt.AlignHCenter
+                Layout.preferredWidth: rightSidebarButton.width
+            }
+
+
             RippleButton { // Right sidebar button
                 id: rightSidebarButton
 

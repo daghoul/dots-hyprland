@@ -3,6 +3,7 @@ import QtQuick.Layouts
 import Qt5Compat.GraphicalEffects
 import Quickshell
 import Quickshell.Wayland
+import qs.modules.common
 
 Scope {
 	id: root
@@ -116,7 +117,7 @@ Scope {
 						property: "width"
 						from: rect.width - bar.anchors.margins * 2
 						to: 0
-						duration: failed ? 10000 : 1000
+						duration: Appearance.animationsEnabled ? (failed ? 10000 : 1000) : 1000 // Keep it 1000ms when animation is disabled to automatically inactive itself
 						onFinished: popupLoader.active = false
 
 						// Pause the animation when the mouse is hovering over the popup,

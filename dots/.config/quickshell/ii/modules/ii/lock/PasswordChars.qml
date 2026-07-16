@@ -92,7 +92,7 @@ StyledFlickable {
                             target: materialShape
                             properties: "opacity"
                             to: 1
-                            duration: 50
+                            duration: Appearance.animationsEnabled ? 50 : 0
                             easing.type: Appearance.animation.elementMoveFast.type
                             easing.bezierCurve: Appearance.animation.elementMoveFast.bezierCurve
                         }
@@ -100,7 +100,7 @@ StyledFlickable {
                             target: materialShape
                             properties: "scale"
                             to: 1
-                            duration: 200
+                            duration: Appearance.animationsEnabled ? 200 : 0
                             easing.type: Easing.BezierSpline
                             easing.bezierCurve: Appearance.animationCurves.expressiveFastSpatial
                         }
@@ -116,7 +116,7 @@ StyledFlickable {
                             properties: "color"
                             from: Appearance.colors.colPrimary
                             to: Appearance.colors.colOnLayer1
-                            duration: 1000
+                            duration: Appearance.animationsEnabled ? 1000 : 0
                             easing.type: Appearance.animation.elementMoveFast.type
                             easing.bezierCurve: Appearance.animation.elementMoveFast.bezierCurve
                         }

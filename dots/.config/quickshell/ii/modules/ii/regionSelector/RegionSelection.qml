@@ -27,14 +27,36 @@ PanelWindow {
         bottom: true
     }
 
+    // Dismiss when switching workplaces
+    // For some reason you cannot dismiss if you press ESC key because
+    // it will only dismiss only if you move the mouse then ESC.
+    // You still can dismiss it by clicking the X button.
+    Connections {
+        target: Hyprland
+        function onFocusedWorkspaceChanged() {
+            if (root.visible) {
+                root.dismiss();
+            }
+        }
+    }
+
+    // Allows ESC to work even without focus
+    Shortcut {
+        sequence: "Esc"
+        context: Qt.ApplicationShortcut // Ensures the shortcut is processed at the application level, not tied to the focused window.
+        onActivated: root.dismiss()
+        enabled: root.visible
+    }
+
     // Modes
     // TODO: Ask: sidebar AI
     enum SnipAction { Copy, Edit, Search, CharRecognition, Record, RecordWithSound } 
-    enum SelectionMode { RectCorners, Circle }
+    enum SelectionMode { RectCorners, Circle, Fullscreen }
     enum Phase { Select, Post }
     property var action: RegionSelection.SnipAction.Copy
     property var selectionMode: RegionSelection.SelectionMode.RectCorners
     property var phase: RegionSelection.Phase.Select
+    property bool mouseHasMoved: false
     signal dismiss()
 
     // Styles
@@ -116,9 +138,10 @@ PanelWindow {
 
     // Config
     property bool isCircleSelection: (root.selectionMode === RegionSelection.SelectionMode.Circle)
-    property bool enableWindowRegions: Config.options.regionSelector.targetRegions.windows && !isCircleSelection
-    property bool enableLayerRegions: Config.options.regionSelector.targetRegions.layers && !isCircleSelection
-    property bool enableContentRegions: Config.options.regionSelector.targetRegions.content
+    readonly property bool isFullscreenSelection: (root.selectionMode === RegionSelection.SelectionMode.Fullscreen)
+    property bool enableWindowRegions: Config.options.regionSelector.targetRegions.windows && !isCircleSelection && !isFullscreenSelection
+    property bool enableLayerRegions: Config.options.regionSelector.targetRegions.layers && !isCircleSelection && !isFullscreenSelection
+    property bool enableContentRegions: Config.options.regionSelector.targetRegions.content && !isFullscreenSelection
 
     // Target
     property real targetedRegionX: -1
@@ -206,7 +229,26 @@ PanelWindow {
             root.preparationDone = !screenshotProc.running
             root.recordingShouldStop = (exitCode === 0);
         }
+      }
+
+    Timer {
+        id: postRecordCheckTimer
+        interval: 1000
+        running: root.phase === RegionSelection.Phase.Post
+        repeat: true
+        onTriggered: checkPostRecordingProc.running = true
     }
+
+    Process {
+        id: checkPostRecordingProc
+        command: ["pidof", "wf-recorder"]
+        onExited: (exitCode, exitStatus) => {
+            if (exitCode !== 0) {
+                root.dismiss();
+            }
+        }
+    }
+  
     property bool preparationDone: false
     onPreparationDoneChanged: {
         if (!preparationDone) return;
@@ -259,6 +301,17 @@ PanelWindow {
 
     // Execution after selection
     function snip() {
+        if (root.phase === RegionSelection.Phase.Post) {
+            console.warn("[Region Selector] Already in Post, ignoring snip.");
+            return;
+        }
+        if (root.isFullscreenSelection) {
+            root.regionX = 0;
+            root.regionY = 0;
+            root.regionWidth = root.screen.width;
+            root.regionHeight = root.screen.height;
+        }
+
         // Validity check
         if (root.regionWidth <= 0 || root.regionHeight <= 0) {
             console.warn("[Region Selector] Invalid region size, skipping snip.");
@@ -266,11 +319,12 @@ PanelWindow {
         }
 
         // Clamp region to screen bounds
-        root.regionX = Math.max(0, Math.min(root.regionX, root.screen.width - root.regionWidth));
-        root.regionY = Math.max(0, Math.min(root.regionY, root.screen.height - root.regionHeight));
-        root.regionWidth = Math.max(0, Math.min(root.regionWidth, root.screen.width - root.regionX));
-        root.regionHeight = Math.max(0, Math.min(root.regionHeight, root.screen.height - root.regionY));
-
+        if (!root.isFullscreenSelection) {
+            root.regionX = Math.max(0, Math.min(root.regionX, root.screen.width - root.regionWidth));
+            root.regionY = Math.max(0, Math.min(root.regionY, root.screen.height - root.regionHeight));
+            root.regionWidth = Math.max(0, Math.min(root.regionWidth, root.screen.width - root.regionX));
+            root.regionHeight = Math.max(0, Math.min(root.regionHeight, root.screen.height - root.regionY));
+        }
         // Adjust action
         if (root.action === RegionSelection.SnipAction.Copy || root.action === RegionSelection.SnipAction.Edit) {
             root.action = root.mouseButton === Qt.RightButton ? RegionSelection.SnipAction.Edit : RegionSelection.SnipAction.Copy;
@@ -325,9 +379,11 @@ PanelWindow {
         cursorShape: Qt.CrossCursor
         acceptedButtons: Qt.LeftButton | Qt.RightButton
         hoverEnabled: true
+        enabled: root.phase === RegionSelection.Phase.Select   // ← disable in Post
 
         // Controls
         onPressed: (mouse) => {
+            if (root.phase !== RegionSelection.Phase.Select) return;
             root.dragStartX = mouse.x;
             root.dragStartY = mouse.y;
             root.draggingX = mouse.x;
@@ -336,8 +392,15 @@ PanelWindow {
             root.mouseButton = mouse.button;
         }
         onReleased: (mouse) => {
+            if (root.phase !== RegionSelection.Phase.Select) return;
+            if (root.isFullscreenSelection) {
+                root.regionX = 0;
+                root.regionY = 0;
+                root.regionWidth = root.screen.width;
+                root.regionHeight = root.screen.height;
+            }
             // Detect if it was a click -> Try to select targeted region
-            if (root.draggingX === root.dragStartX && root.draggingY === root.dragStartY) {
+            else if (root.draggingX === root.dragStartX && root.draggingY === root.dragStartY) {
                 if (root.targetedRegionValid()) {
                     root.setRegionToTargeted();
                 }
@@ -358,6 +421,8 @@ PanelWindow {
             root.snip();
         }
         onPositionChanged: (mouse) => {
+            if (!root.mouseHasMoved) root.mouseHasMoved = true;
+            if (root.phase !== RegionSelection.Phase.Select) return;
             root.updateTargetedRegion(mouse.x, mouse.y);
             if (!root.dragging) return;
             root.draggingX = mouse.x;
@@ -398,7 +463,7 @@ PanelWindow {
         // The thing to the bottom-right with an icon
         CursorGuide {
             z: 9999
-            visible: root.phase === RegionSelection.Phase.Select
+            visible: root.phase === RegionSelection.Phase.Select && root.mouseHasMoved
             x: root.dragging ? root.regionX + root.regionWidth : mouseArea.mouseX
             y: root.dragging ? root.regionY + root.regionHeight : mouseArea.mouseY
             action: root.action

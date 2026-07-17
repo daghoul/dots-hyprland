@@ -17,3 +17,4 @@ __pycache__/
 *~
 dots/.config/hypr/hyprland/shellOverrides/main.lua
 dots/.config/hypr/hyprland/colors.lua
+dots/.config/hypr/hyprlock/colors.conf

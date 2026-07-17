@@ -67,4 +67,17 @@ Singleton {
         if (root.visualEngaged) root.applyVisual(true);
         // if (root.wallpaperPaused) root.setWallpaperPaused(true);
     }
+
+    function isGameModeActive() {
+        if (Config.options.gameMode.active) return true; else return false; 
+    }
+
+    GlobalShortcut {
+        name: "gameMode"
+        description: "Enable game mode."
+
+        onPressed: {
+            Config.options.gameMode.active = isGameModeActive() ? false : true
+        }
+    }
 }

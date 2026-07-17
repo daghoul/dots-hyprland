@@ -104,6 +104,9 @@ hl.bind(
 			.. " || pidof slurp || grim -g \"$(slurp $SLURP_ARGS)\" \"/tmp/ocr_image.png\" && tesseract \"/tmp/ocr_image.png\" stdout -l $(tesseract --list-langs | awk 'NR>1{print $1}' | tr '\\\\n' '+' | sed 's/\\\\+$/\\\\n/') | wl-copy && rm \"/tmp/ocr_image.png\""
 	)
 )
+
+hl.bind("SUPER + SHIFT + G", hl.dsp.global("quickshell:gameMode"), { description = "Utilities: Toggles Gamemode" })
+
 --# Color picker
 hl.bind(
 	"SUPER + SHIFT + C",
@@ -300,4 +303,3 @@ hl.bind("SUPER + E", hl.dsp.exec_cmd(fileManager), { description = "Apps: File M
 hl.bind("SUPER + W", hl.dsp.exec_cmd(browser), { description = "Apps: Browser" })
 hl.bind("SUPER + X", hl.dsp.exec_cmd(editor), { description = "Apps: Text Editor" })
 hl.bind("CTRL + SHIFT + ESCAPE", hl.dsp.exec_cmd(taskManager), { description = "Apps: Task Manager" })
-

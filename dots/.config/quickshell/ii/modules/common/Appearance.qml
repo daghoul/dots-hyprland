@@ -16,7 +16,7 @@ Singleton {
     property QtObject sizes
     property string syntaxHighlightingTheme
 
-    property bool animationsEnabled: !GameMode.engaged // Disable animation while Game Mode is on.
+    property bool animationsEnabled: !GameMode.visualEngaged // Disable animation if visual performance and game mode are on.
 
     // Transparency. The quadratic functions were derived from analysis of hand-picked transparency values.
     ColorQuantizer {

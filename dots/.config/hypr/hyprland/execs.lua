@@ -23,4 +23,7 @@ hl.on("hyprland.start", function ()
 
     -- Cursor
     -- hl.exec_cmd("hyprctl setcursor Bibata-Modern-Classic 24")
+
+    -- For alacritty
+    hl.exec_cmd("alacritty --daemon")
 end)

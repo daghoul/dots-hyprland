@@ -127,13 +127,13 @@ Singleton {
 
             property JsonObject apps: JsonObject {
                 property string bluetooth: "kcmshell6 kcm_bluetooth"
-                property string changePassword: "alacritty -e fish -i -c 'passwd'"
+                property string changePassword: "alacritty msg create-window -e fish -i -c 'passwd' || alacritty -e fish -i -c 'passwd'"
                 property string network: "kcmshell6 kcm_networkmanagement"
                 property string manageUser: "kcmshell6 kcm_users"
                 property string networkEthernet: "kcmshell6 kcm_networkmanagement"
-                property string taskManager: "alacritty -e btop"
-                property string terminal: "alacritty" // This is only for shell actions
-                property string update: "alacritty --hold -e fish -i -c 'yay -Syu || pkexec pacman -Syu'"
+                property string taskManager: "alacritty msg create-window -e btop || alacritty -e btop"
+                property string terminal: "alacritty msg create-window || alacritty" // This is only for shell actions
+                property string update: "alacritty msg create-window --hold -e fish -i -c 'yay -Syu || pkexec pacman -Syu' || alacritty --hold -e fish -i -c 'yay -Syu || pkexec pacman -Syu'"
                 property string volumeMixer: `~/.config/hypr/hyprland/scripts/launch_first_available.sh "pavucontrol-qt" "pavucontrol"`
             }
 

@@ -59,14 +59,14 @@ Item {
         property Item targetItem: contentItem.children[root.currentIndex]
         AnimatedTabIndexPair {
             id: leftBound
-            idx1Duration: 50
-            idx2Duration: 200
+            idx1Duration: Appearance.animationsEnabled ? 50 : 0
+            idx2Duration: Appearance.animationsEnabled ? 200 : 0
             index: activeIndicator.targetItem.x
         }
         AnimatedTabIndexPair {
             id: rightBound
-            idx1Duration: 50
-            idx2Duration: 200
+            idx1Duration: Appearance.animationsEnabled ? 50 : 0
+            idx2Duration: Appearance.animationsEnabled ? 200 : 0
             index: activeIndicator.targetItem.x + activeIndicator.targetItem.width
         }
         x: Math.min(leftBound.idx1, leftBound.idx2)

@@ -31,7 +31,7 @@ WindowDialog {
             opacity: Network.wifiScanning ? 0.4 : 1
 
             Behavior on opacity {
-                NumberAnimation { duration: 150 }
+                NumberAnimation { duration: Appearance.animationsEnabled ? 150 : 0 }
             }
 
             onClicked: Network.rescanWifi()

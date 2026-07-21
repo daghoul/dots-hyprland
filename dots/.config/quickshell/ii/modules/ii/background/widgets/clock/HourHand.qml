@@ -22,7 +22,7 @@ Item {
     Behavior on rotation {
         animation: RotationAnimation {
             direction: RotationAnimation.Clockwise
-            duration: 300
+            duration: Appearance.animationsEnabled ? 300 : 0
             easing.type: Easing.BezierSpline
             easing.bezierCurve: Appearance.animationCurves.emphasized
         }

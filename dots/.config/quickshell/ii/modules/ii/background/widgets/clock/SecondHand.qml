@@ -21,7 +21,7 @@ Item {
         enabled: Config.options.background.widgets.clock.cookie.constantlyRotate // Animating every second is expensive...
         animation: RotationAnimation {
             direction: RotationAnimation.Clockwise
-            duration: 1000 // 1 second
+            duration: Appearance.animationsEnabled ? 1000 : 0 // 1 second
             easing.type: Easing.InOutQuad
         }
     }

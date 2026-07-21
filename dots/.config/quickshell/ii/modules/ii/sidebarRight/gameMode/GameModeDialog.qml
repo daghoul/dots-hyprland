@@ -42,10 +42,23 @@ WindowDialog {
             }
             iconSize: Appearance.font.pixelSize.larger
             buttonIcon: "blur_on"
-            text: Translation.tr("Visual performance")
+            text: Translation.tr("Visual perf (Hyprland)")
             checked: Config.options.gameMode.visual
             onCheckedChanged: Config.options.gameMode.visual = checked
             StyledToolTip { text: Translation.tr("No animations, blur, shadows, rounding or gaps; allow tearing") }
+        }
+
+        ConfigSwitch {
+            anchors {
+                left: parent.left
+                right: parent.right
+            }
+            iconSize: Appearance.font.pixelSize.larger
+            buttonIcon: "animation"
+            text: Translation.tr("Disable Quickshell animation")
+            checked: Config.options.gameMode.disableQuickshellAnims
+            onCheckedChanged: Config.options.gameMode.disableQuickshellAnims = checked
+            StyledToolTip { text: Translation.tr("Disables quickshell animations by zeroing its duration.") }
         }
 
         ConfigSwitch {

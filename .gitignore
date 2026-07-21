@@ -18,3 +18,10 @@ __pycache__/
 dots/.config/hypr/hyprland/shellOverrides/main.lua
 dots/.config/hypr/hyprland/colors.lua
 dots/.config/hypr/hyprlock/colors.conf
+dots/.config/hypr/custom/env.lua
+dots/.config/hypr/custom/execs.lua
+dots/.config/hypr/custom/general.lua
+dots/.config/hypr/custom/keybinds.lua
+dots/.config/hypr/custom/rules.lua
+dots/.config/hypr/custom/variables.lua
+dots/.config/hypr/custom/scripts/__restore_video_wallpaper.sh

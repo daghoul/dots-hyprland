@@ -15,17 +15,17 @@ Singleton {
     id: root
     signal gammaChangeAttempt()
 
-    readonly property real gammaLowerLimit: 25
-
     property string from: Config.options?.light?.night?.from ?? "19:00" 
     property string to: Config.options?.light?.night?.to ?? "06:30"
     property bool automatic: Config.options?.light?.night?.automatic && (Config?.ready ?? true)
     property int colorTemperature: Config.options?.light?.night?.colorTemperature ?? 5000
     property int defaultColorTemperature: 6000
-    property int gamma: Config.options.display.persistingGamma
     property bool shouldBeOn
     property bool firstEvaluation: true
     property bool temperatureActive: false
+
+    readonly property real gammaLowerLimit: 25
+    property int gamma: Config.options.display.persistingGamma
     property int lastAppliedGamma: -1
 
     property int fromHour: Number(from.split(":")[0])
@@ -65,17 +65,6 @@ Singleton {
         root.firstEvaluation = true;
         reEvaluate();
     }
-
-    // Timer {
-    //     id: gammaApplyTimer
-    //     interval: 50   // small delay to batch rapid changes
-    //     repeat: false
-    //     onTriggered: {
-    //         if (root.gamma === root.lastAppliedGamma) return
-    //         root.lastAppliedGamma = root.gamma
-    //         Quickshell.execDetached(["bash", "-c", `hyprctl hyprsunset gamma ${root.gamma}`])
-    //     }
-    // }
 
     function inBetween(t, from, to) {
         if (from < to) {
@@ -175,15 +164,6 @@ Singleton {
             root.disableTemperature();
         }
     }
-
-    // // Change temp
-    // Connections {
-    //     target: Config.options.light.night
-    //     function onColorTemperatureChanged() {
-    //         if (!root.temperatureActive) return
-    //         Quickshell.execDetached(["hyprctl", "hyprsunset", "temperature", `${Config.options.light.night.colorTemperature}`])
-    //     }
-    // }
 
     // Change temp
     onColorTemperatureChanged: {

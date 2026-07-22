@@ -283,25 +283,6 @@ ButtonMouseArea {
 
         opacity: root.specialBlur
         Behavior on opacity {} // Don't animate, as specialBlur is already animated
-
-        sourceComponent: Pill {
-            anchors.centerIn: parent
-            property real undirectionalWidth: root.activeWorkspaceSize
-            property real undirectionalLength: {
-                const base = root.workspaceButtonWidth * Math.min(1.35, wsModel.shownCount); // Who tf only configures only 2 workspaces shown anyway?
-                if (root.vertical)
-                    return base;
-                return specialWsText.implicitWidth + undirectionalWidth;
-            }
-            color: Appearance.colors.colPrimary
-
-            implicitWidth: root.vertical ? undirectionalWidth : undirectionalLength
-            implicitHeight: root.vertical ? undirectionalLength : undirectionalWidth
-
-            Behavior on undirectionalLength {
-                animation: Appearance.animation.elementMoveEnter.numberAnimation.createObject(this)
-            }
-        }
     }
 
     /////////////////// Super key press handling ///////////////////

@@ -37,5 +37,6 @@ AbstractQuickPanel {
             }
         }
         IdleInhibitor {}
+        CloudflareWarp {}
     }
 }

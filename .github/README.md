@@ -29,7 +29,8 @@ I applied some of the code of other people. I really, really thank them so much!
 - **Anime-related features like Booru**
 - **Windows (waffle) panel**
 - **EasyEffects Integration**
-- I forgot some of them lol
+- **Cloudfare WARP**
+- **I forgot some of them lol**
 
 ## Added features
 - I'll list soon but almost all of them are done by other people.
@@ -39,3 +40,10 @@ I applied some of the code of other people. I really, really thank them so much!
 I'm new to using git & GitHub, I could've cherry pick commits of other people to properly credit them back then but somehow I messed up and get confused :(
 
 As of now, I'm properly using their commits now instead of copying and pasting it (i know it's stupid)
+
+## Big thanks to
+- [@end-4](https://github.com/end-4) - this whole dotfiles
+- [@clsty](https://github.com/clsty) - for making the dotfiles accessible by taking care of the install script and many other things
+ - [@midn8hustlr](https://github.com/midn8hustlr) - color generation system
+ - [@outfoxxed](https://github.com/outfoxxed/) - quickshell
+ - [@Satoxyan](https://github.com/Satoxyan), [@Nitesh4546](https://github.com/Nitesh4546), [@MainstreamOS](https://github.com/MainstreamOS), [@ar-Raqmi](https://github.com/ar-Raqmi), [@Kitty-Hivens](https://github.com/Kitty-Hivens), [@Xlini22](https://github.com/Xlini22), [@FlimixST](https://github.com/FlimixST), [@zzallirog](https://github.com/zzallirog) - for their awesome commits (most of their commits aren't shown because I messed up using git for the first time)

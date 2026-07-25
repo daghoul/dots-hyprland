@@ -27,19 +27,6 @@ PanelWindow {
         bottom: true
     }
 
-    // Dismiss when switching workplaces
-    // For some reason you cannot dismiss if you press ESC key because
-    // it will only dismiss only if you move the mouse then ESC.
-    // You still can dismiss it by clicking the X button.
-    Connections {
-        target: Hyprland
-        function onFocusedWorkspaceChanged() {
-            if (root.visible) {
-                root.dismiss();
-            }
-        }
-    }
-
     // Allows ESC to work even without focus
     Shortcut {
         sequence: "Esc"

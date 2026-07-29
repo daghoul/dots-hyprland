@@ -64,7 +64,13 @@ Singleton {
 	        seen.add(app.id);
 	        return true;
 	    });
+
+        console.info(`[AppSearch] Loaded ${list.length} unique applications.`);
 	}
+
+    Component.onCompleted: {
+        rebuild();
+    }
     
     readonly property var preppedNames: list.map(a => ({
         name: Fuzzy.prepare(`${a.name} `),

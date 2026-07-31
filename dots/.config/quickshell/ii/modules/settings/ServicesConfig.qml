@@ -250,22 +250,23 @@ ContentPage {
         title: Translation.tr("Weather")
         ConfigRow {
             ConfigSwitch {
-                buttonIcon: "assistant_navigation"
-                text: Translation.tr("Enable GPS based location")
-                checked: Config.options.bar.weather.enableGPS
+                buttonIcon: "check"
+                text: Translation.tr("Enable weather service")
+                checked: Config.options.weather.enable
                 onCheckedChanged: {
-                    Config.options.bar.weather.enableGPS = checked;
+                    Config.options.weather.enable = checked;
+                }
+                StyledToolTip {
+                    text: Translation.tr("Master switch for enabling the weather service across the shell")
                 }
             }
             ConfigSwitch {
-                buttonIcon: "thermometer"
-                text: Translation.tr("Fahrenheit unit")
-                checked: Config.options.bar.weather.useUSCS
+                buttonIcon: "assistant_navigation"
+                text: Translation.tr("Enable GPS based location")
+                enabled: Config.options.weather.enable
+                checked: Config.options.weather.enableGPS
                 onCheckedChanged: {
-                    Config.options.bar.weather.useUSCS = checked;
-                }
-                StyledToolTip {
-                    text: Translation.tr("It may take a few seconds to update")
+                    Config.options.weather.enableGPS = checked;
                 }
             }
         }
@@ -273,21 +274,36 @@ ContentPage {
         MaterialTextArea {
             Layout.fillWidth: true
             placeholderText: Translation.tr("City name")
-            text: Config.options.bar.weather.city
+            text: Config.options.weather.city
+            enabled: Config.options.weather.enable && !Config.options.weather.enableGPS
             wrapMode: TextEdit.Wrap
             onTextChanged: {
-                Config.options.bar.weather.city = text;
+                Config.options.weather.city = text;
+            }
+        }
+        ConfigSwitch {
+            buttonIcon: "thermometer"
+            text: Translation.tr("Fahrenheit unit")
+            enabled: Config.options.weather.enable
+            checked: Config.options.weather.useUSCS
+            onCheckedChanged: {
+                Config.options.weather.useUSCS = checked;
+            }
+            StyledToolTip {
+                extraVisibleCondition: Config.options.weather.enable
+                text: Translation.tr("It may take a few seconds to update")
             }
         }
         ConfigSpinBox {
             icon: "av_timer"
             text: Translation.tr("Polling interval (m)")
-            value: Config.options.bar.weather.fetchInterval
+            enabled: Config.options.weather.enable
+            value: Config.options.weather.fetchInterval
             from: 5
             to: 50
             stepSize: 5
             onValueChanged: {
-                Config.options.bar.weather.fetchInterval = value;
+                Config.options.weather.fetchInterval = value;
             }
         }
     }

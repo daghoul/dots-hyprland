@@ -240,13 +240,18 @@ ContentPage {
 
     ContentSection {
         icon: "cloud"
-        title: Translation.tr("Weather")
+        title: Translation.tr("Weather indicator")
         ConfigSwitch {
             buttonIcon: "check"
             text: Translation.tr("Enable")
+            enabled: Config.options.weather.enable
             checked: Config.options.bar.weather.enable
             onCheckedChanged: {
                 Config.options.bar.weather.enable = checked;
+            }
+            StyledToolTip {
+                extraVisibleCondition: !Config.options.weather.enable
+                text: Translation.tr("Enable weather service in Services tab first for this to work")
             }
         }
     }

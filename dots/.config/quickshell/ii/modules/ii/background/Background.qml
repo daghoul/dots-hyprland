@@ -255,7 +255,7 @@ Variants {
                 }
 
                 FadeLoader {
-                    shown: Config.options.background.widgets.weather.enable
+                    shown: Config.options.weather.enable && Config.options.background.widgets.weather.enable
                     sourceComponent: WeatherWidget {
                         screenWidth: bgRoot.screen.width
                         screenHeight: bgRoot.screen.height

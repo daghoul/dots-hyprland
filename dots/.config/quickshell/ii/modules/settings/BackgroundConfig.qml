@@ -559,7 +559,7 @@ ContentPage {
 
     ContentSection {
         icon: "weather_mix"
-        title: Translation.tr("Widget: Weather")
+        title: Translation.tr("Widget: Weather indicator")
 
         ConfigRow {
             Layout.fillWidth: true
@@ -568,9 +568,14 @@ ContentPage {
                 Layout.fillWidth: false
                 buttonIcon: "check"
                 text: Translation.tr("Enable")
+                enabled: Config.options.weather.enable
                 checked: Config.options.background.widgets.weather.enable
                 onCheckedChanged: {
                     Config.options.background.widgets.weather.enable = checked;
+                }
+                StyledToolTip {
+                    extraVisibleCondition: !Config.options.weather.enable
+                    text: Translation.tr("Enable weather service in Services tab first for this to work")
                 }
             }
             Item {

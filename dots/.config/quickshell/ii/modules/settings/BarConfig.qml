@@ -257,6 +257,20 @@ ContentPage {
     }
 
     ContentSection {
+        icon: "memory"
+        title: Translation.tr("Resource Usage")
+        
+        ConfigSwitch {
+            buttonIcon: "check"
+            text: Translation.tr("Enable")
+            checked: Config.options.bar.resources.enable
+            onCheckedChanged: {
+                Config.options.bar.resources.enable = checked;
+            }
+        }    
+    }
+
+    ContentSection {
         icon: "workspaces"
         title: Translation.tr("Workspaces")
 

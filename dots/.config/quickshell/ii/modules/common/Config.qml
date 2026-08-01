@@ -217,6 +217,7 @@ Singleton {
                 property bool verbose: true
                 property bool vertical: false
                 property JsonObject resources: JsonObject {
+                    property bool enable: true
                     property bool alwaysShowSwap: true
                     property bool alwaysShowCpu: true
                     property int memoryWarningThreshold: 95

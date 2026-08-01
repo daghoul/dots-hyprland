@@ -60,8 +60,8 @@ Singleton {
     }
 
 	Timer {
-		interval: 4000
-        running: true 
+		interval: 1
+        running: Config.options.bar.resources.enable 
         repeat: true
 		onTriggered: {
             // Reload files

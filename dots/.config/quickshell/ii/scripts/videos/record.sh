@@ -47,17 +47,29 @@ for ((i = 0; i < ${#ARGS[@]}; i++)); do
   fi
 done
 
+start_recording() {
+  local cmd=("$@")
+  # Launch wf-recorder in the background
+  "${cmd[@]}" &
+  local pid=$!
+  # Write PID to file so Quickshell can detect it
+  echo "$pid" > /tmp/wf-recorder.pid
+  # Wait for the recording to finish (either by user stopping or pkill)
+  wait "$pid"
+  # Cleanup PID file when recording stops
+  rm -f /tmp/wf-recorder.pid
+}
+
 if pgrep wf-recorder >/dev/null; then
-  notify-send "Recording Stopped" "Stopped" -a 'Recorder' &
   pkill wf-recorder &
 else
   if [[ $FULLSCREEN_FLAG -eq 1 ]]; then
     # notify-send "Starting recording" 'recording_'"$(getdate)"'.mp4' -a 'Recorder' &
     disown
     if [[ $SOUND_FLAG -eq 1 ]]; then
-      wf-recorder -o "$(getactivemonitor)" --pixel-format yuv420p -f './recording_'"$(getdate)"'.mp4' -t --audio="$(getaudiooutput)"
+      start_recording wf-recorder -o "$(getactivemonitor)" --pixel-format yuv420p -f './recording_'"$(getdate)"'.mp4' -t --audio="$(getaudiooutput)"
     else
-      wf-recorder -o "$(getactivemonitor)" --pixel-format yuv420p -f './recording_'"$(getdate)"'.mp4' -t
+      start_recording wf-recorder -o "$(getactivemonitor)" --pixel-format yuv420p -f './recording_'"$(getdate)"'.mp4' -t
     fi
   else
     # If a manual region was provided via --region, use it; otherwise run slurp as before.
@@ -74,9 +86,9 @@ else
     # notify-send "Starting recording" 'recording_'"$(getdate)"'.mp4' -a 'Recorder' &
     disown
     if [[ $SOUND_FLAG -eq 1 ]]; then
-      wf-recorder --pixel-format yuv420p -f './recording_'"$(getdate)"'.mp4' -t --geometry "$region" --audio="$(getaudiooutput)"
+      start_recording wf-recorder --pixel-format yuv420p -f './recording_'"$(getdate)"'.mp4' -t --geometry "$region" --audio="$(getaudiooutput)"
     else
-      wf-recorder --pixel-format yuv420p -f './recording_'"$(getdate)"'.mp4' -t --geometry "$region"
+      start_recording wf-recorder --pixel-format yuv420p -f './recording_'"$(getdate)"'.mp4' -t --geometry "$region"
     fi
   fi
 fi

@@ -203,44 +203,16 @@ PanelWindow {
         screenshotPath: root.screenshotPath
         onExited: (exitCode, exitStatus) => {
             if (root.enableContentRegions) imageDetectionProcess.running = true;
-            root.preparationDone = !checkRecordingProc.running;
-        }
-    }
-    property bool isRecording: root.action === RegionSelection.SnipAction.Record || root.action === RegionSelection.SnipAction.RecordWithSound
-    property bool recordingShouldStop: false
-    Process {
-        id: checkRecordingProc
-        running: isRecording
-        command: ["pidof", "wf-recorder"]
-        onExited: (exitCode, exitStatus) => {
-            root.preparationDone = !screenshotProc.running
-            root.recordingShouldStop = (exitCode === 0);
-        }
-      }
-
-    Timer {
-        id: postRecordCheckTimer
-        interval: 1000
-        running: root.phase === RegionSelection.Phase.Post
-        repeat: true
-        onTriggered: checkPostRecordingProc.running = true
-    }
-
-    Process {
-        id: checkPostRecordingProc
-        command: ["pidof", "wf-recorder"]
-        onExited: (exitCode, exitStatus) => {
-            if (exitCode !== 0) {
-                root.dismiss();
-            }
+            root.preparationDone = true;
         }
     }
   
     property bool preparationDone: false
     onPreparationDoneChanged: {
         if (!preparationDone) return;
-        if (root.isRecording && root.recordingShouldStop) {
-            Quickshell.execDetached([Directories.recordScriptPath]);
+
+        if (RecordingService.isRecording) {
+            RecordingService.stopRecording();
             root.dismiss();
             return;
         }
@@ -337,7 +309,6 @@ PanelWindow {
             root.dismiss();
         }
     }
-
     // Only clickable in Selection phase
     mask: Region {
         item: switch(root.phase) {

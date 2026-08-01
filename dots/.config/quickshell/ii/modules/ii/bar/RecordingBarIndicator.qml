@@ -11,9 +11,9 @@ RippleButton {
     id: root
 
     property bool vertical: false
-    property bool recording: false
-    property bool stopped: false
-    property int elapsedSeconds: 0
+    property bool recording: RecordingService.isRecording
+    property bool stopped: RecordingService.stopped
+    property int elapsedSeconds: RecordingService.elapsedSeconds
 
     readonly property color stateColor: Appearance.colors.colErrorContainer
     readonly property color stateColorHover: Appearance.colors.colErrorContainerHover
@@ -86,54 +86,6 @@ RippleButton {
         }
     ]
 
-    // Smooth local timer — ticks every second regardless of process latency
-    Timer {
-        id: elapsedTimer
-        interval: 1000
-        running: root.recording && !root.stopped
-        repeat: true
-        onTriggered: root.elapsedSeconds += 1
-    }
-
-    // Poll wf-recorder for start/stop detection
-    Timer {
-        id: pollTimer
-        interval: 1000
-        running: true
-        repeat: true
-        triggeredOnStart: true
-        onTriggered: checkRecordingProc.running = true
-    }
-
-    Process {
-        id: checkRecordingProc
-        command: ["bash", "-c", "pid=$(pidof wf-recorder 2>/dev/null); if [ -n \"$pid\" ]; then echo \"1 $(ps -o etimes= -p $pid 2>/dev/null | tr -d ' ')\"; else echo 0; fi"]
-        stdout: StdioCollector {
-            id: recordingOutput
-            onStreamFinished: {
-                // Ignore polls during user-initiated stop (prevents re-trigger)
-                if (root.stopped) return;
-
-                const parts = recordingOutput.text.trim().split(/\s+/);
-                const isRec = (parts[0] === "1");
-                const wasRecording = root.recording;
-                root.recording = isRec;
-                if (isRec && !wasRecording) {
-                    // Sync elapsed from OS only on recording start
-                    root.elapsedSeconds = parseInt(parts[1]) || 0;
-                }
-            }
-        }
-    }
-
-    // Reset after exit animation finishes
-    onVisibleChanged: {
-        if (!visible) {
-            elapsedSeconds = 0;
-            stopped = false;
-        }
-    }    
-
     function displayText() {
         if (root.stopped) return "Stop";
         const minutes = Math.floor(root.elapsedSeconds / 60).toString().padStart(2, "0");
@@ -152,9 +104,7 @@ RippleButton {
     }
 
     onClicked: {
-        root.stopped = true;
-        root.recording = false;
-        Quickshell.execDetached(["bash", "-c", "kill -INT $(pidof wf-recorder)"]);
+        RecordingService.stopRecording();  // Use the global stop function
     }
 
     contentItem: Item {

@@ -146,6 +146,8 @@ RippleButton {
                 Layout.alignment: Qt.AlignVCenter
                 Layout.preferredWidth: 48
                 horizontalAlignment: Text.AlignHCenter
+                topPadding: 2
+                bottomPadding: -2
                 text: root.displayText()
                 font.family: Appearance.font.family.main
                 font.pixelSize: Appearance.font.pixelSize.normal

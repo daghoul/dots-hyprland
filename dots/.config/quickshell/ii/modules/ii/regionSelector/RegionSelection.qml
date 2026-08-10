@@ -219,6 +219,16 @@ PanelWindow {
         root.visible = true;
     }
 
+    // Dismiss when recording was stopped externally e.g. recording bar indicator.
+    Connections {
+        target: RecordingService
+        function onIsRecordingChanged() {
+            if (!RecordingService.isRecording) {
+                root.dismiss();
+            }
+        }
+    }
+
     Process {
         id: imageDetectionProcess
         command: ["bash", "-c", `${Directories.scriptPath}/images/find-regions-venv.sh ` 

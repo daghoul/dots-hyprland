@@ -14,25 +14,29 @@ Item {
     signal fontSelected(string family)
 
     Layout.fillWidth: true
-    implicitHeight: 44
+    implicitHeight: 40
 
     readonly property var families: Qt.fontFamilies()
 
     Rectangle {
         id: field
         anchors.fill: parent
-        radius: Appearance.rounding.small
+        radius: height / 2
         color: fieldArea.containsMouse ? Appearance.colors.colSecondaryContainerHover
                                        : Appearance.colors.colSecondaryContainer
         Behavior on color {
             animation: Appearance.animation.elementMoveFast.colorAnimation.createObject(this)
         }
-
         RowLayout {
             anchors.fill: parent
             anchors.leftMargin: 14
             anchors.rightMargin: 12
             spacing: 8
+            MaterialSymbol {
+                text: "font_download"
+                iconSize: Appearance.font.pixelSize.larger
+                color: Appearance.colors.colOnSecondaryContainer
+            }
             StyledText {
                 Layout.fillWidth: true
                 text: (root.value && root.value.length > 0) ? root.value : Translation.tr("Choose a font…")
@@ -46,15 +50,24 @@ Item {
                 text: "expand_more"
                 iconSize: Appearance.font.pixelSize.larger
                 color: Appearance.colors.colOnSecondaryContainer
+                rotation: popup.visible ? 180 : 0
+                Behavior on rotation {
+                    animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
+                }
             }
         }
-
         MouseArea {
             id: fieldArea
             anchors.fill: parent
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
             onClicked: {
+                // This allows popup to close properly
+                // when clicking the button if it was opened
+                if (popup.opened) {
+                    popup.close()
+                    return
+                }
                 searchField.text = "";
                 // Decide drop direction + height from the room around the field in
                 // the window, so a picker near the bottom flips up instead of
@@ -82,7 +95,7 @@ Item {
         width: field.width
         height: availH
         padding: 8
-        closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
+        closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
         onOpened: searchField.forceActiveFocus()
 
         enter: Transition {

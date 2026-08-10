@@ -102,18 +102,8 @@ ContentPage {
     }
 
     ContentSection {
-        icon: "file_open"
-        title: Translation.tr("Save paths")
-
-        MaterialTextArea {
-            Layout.fillWidth: true
-            placeholderText: Translation.tr("Video Recording Path")
-            text: Config.options.screenRecord.savePath
-            wrapMode: TextEdit.Wrap
-            onTextChanged: {
-                Config.options.screenRecord.savePath = text;
-            }
-        }
+        icon: "screenshot_frame_2"
+        title: Translation.tr("Screenshot")
         
         MaterialTextArea {
             Layout.fillWidth: true
@@ -125,6 +115,46 @@ ContentPage {
             }
         }
     }
+
+    ContentSection {
+        icon: "screen_record"
+        title: Translation.tr("Screen recording")
+
+        ConfigRow {
+            ConfigSwitch {
+                text: Translation.tr("Use GPU for recording")
+                buttonIcon: "developer_board"
+                checked: Config.options.screenRecord.enableGPU
+                onCheckedChanged: {
+                    Config.options.screenRecord.enableGPU = checked;
+                }
+                StyledToolTip {
+                    text: Translation.tr("Utilizes VA-API for recording, disable to use CPU instead")
+                }
+            }
+
+            MaterialTextArea {
+                Layout.fillWidth: true
+                placeholderText: Translation.tr("Device path for GPU encoding")
+                text: Config.options.screenRecord.gpuDevice || "/dev/dri/renderD128"
+                enabled: Config.options.screenRecord.enableGPU
+                wrapMode: TextEdit.Wrap
+                onTextChanged: {
+                    Config.options.screenRecord.gpuDevice = text;
+                }
+            }
+        }
+
+        MaterialTextArea {
+            Layout.fillWidth: true
+            placeholderText: Translation.tr("Screen Recording Path")
+            text: Config.options.screenRecord.savePath
+            wrapMode: TextEdit.Wrap
+            onTextChanged: {
+                Config.options.screenRecord.savePath = text;
+            }
+        }
+    }    
 
     ContentSection {
         icon: "search"

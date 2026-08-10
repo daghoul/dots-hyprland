@@ -1,17 +1,36 @@
 #!/usr/bin/env bash
 
 CONFIG_FILE="$HOME/.config/illogical-impulse/config.json"
-JSON_PATH=".screenRecord.savePath"
 
-CUSTOM_PATH=$(jq -r "$JSON_PATH" "$CONFIG_FILE" 2>/dev/null)
+read_config() {
+    local key="$1"
+    local default="$2"
+    local value
+    value=$(jq -r ".screenRecord.$key" "$CONFIG_FILE" 2>/dev/null)
+    if [[ "$value" == "null" ]] || [[ -z "$value" ]]; then
+        echo "$default"
+    else
+        echo "$value"
+    fi
+}
 
-RECORDING_DIR=""
+SAVE_PATH=$(read_config "savePath" "$HOME/Videos")
+GPU_ENABLED=$(read_config "enableGPU" "false")
+GPU_DEVICE=$(read_config "gpuDevice" "/dev/dri/renderD128")
 
-if [[ -n "$CUSTOM_PATH" ]]; then
-  RECORDING_DIR="$CUSTOM_PATH"
+RECORDING_DIR="$SAVE_PATH"
+
+if [ -n "$XDG_RUNTIME_DIR" ]; then
+    RUNTIME_DIR="$XDG_RUNTIME_DIR"
 else
-  RECORDING_DIR="$HOME/Videos" # Use default path
+    # Fallback to /tmp if XDG_RUNTIME_DIR is not set
+    RUNTIME_DIR="/tmp"
 fi
+
+PIDFILE="$RUNTIME_DIR/wf-recorder.pid"
+
+# Clean up PID file on exit or interruption
+trap 'rm -f $PIDFILE' EXIT INT TERM
 
 getdate() {
   date '+%Y-%m-%d_%H.%M.%S'
@@ -36,8 +55,6 @@ for ((i = 0; i < ${#ARGS[@]}; i++)); do
     if ((i + 1 < ${#ARGS[@]})); then
       MANUAL_REGION="${ARGS[i + 1]}"
     else
-      notify-send "Recording cancelled" "No region specified for --region" -a 'Recorder' &
-      disown
       exit 1
     fi
   elif [[ "${ARGS[i]}" == "--sound" ]]; then
@@ -47,29 +64,41 @@ for ((i = 0; i < ${#ARGS[@]}; i++)); do
   fi
 done
 
+# VA-API recording support, fallback to cpu if not supported.
+CODEC=""
+ENCODE_DEVICE=""
+if [[ "$GPU_ENABLED" == "true" ]] && [ -e "$GPU_DEVICE" ]; then
+    CODEC="h264_vaapi"
+    ENCODE_DEVICE="-d $GPU_DEVICE"
+    echo "Using VA-API GPU encoding (h264_vaapi)" # for debugging
+else
+    CODEC="libx264"
+    ENCODE_DEVICE=""
+    echo "Using CPU encoding (libx264)" # debugging
+fi
+
 start_recording() {
   local cmd=("$@")
-  # Launch wf-recorder in the background
+  cmd+=("-c" "$CODEC")
+  if [[ -n "$ENCODE_DEVICE" ]]; then
+    cmd+=($ENCODE_DEVICE)
+  fi
+
   "${cmd[@]}" &
   local pid=$!
-  # Write PID to file so Quickshell can detect it
-  echo "$pid" > /tmp/wf-recorder.pid
-  # Wait for the recording to finish (either by user stopping or pkill)
+  echo "$pid" > "$PIDFILE"
   wait "$pid"
-  # Cleanup PID file when recording stops
-  rm -f /tmp/wf-recorder.pid
+  rm -f "$PIDFILE"
 }
 
 if pgrep wf-recorder >/dev/null; then
   pkill wf-recorder &
 else
   if [[ $FULLSCREEN_FLAG -eq 1 ]]; then
-    # notify-send "Starting recording" 'recording_'"$(getdate)"'.mp4' -a 'Recorder' &
-    disown
     if [[ $SOUND_FLAG -eq 1 ]]; then
-      start_recording wf-recorder -o "$(getactivemonitor)" --pixel-format yuv420p -f './recording_'"$(getdate)"'.mp4' -t --audio="$(getaudiooutput)"
+      start_recording wf-recorder -o "$(getactivemonitor)" -f './recording_'"$(getdate)"'.mp4' --audio="$(getaudiooutput)"
     else
-      start_recording wf-recorder -o "$(getactivemonitor)" --pixel-format yuv420p -f './recording_'"$(getdate)"'.mp4' -t
+      start_recording wf-recorder -o "$(getactivemonitor)" -f './recording_'"$(getdate)"'.mp4'
     fi
   else
     # If a manual region was provided via --region, use it; otherwise run slurp as before.
@@ -77,18 +106,14 @@ else
       region="$MANUAL_REGION"
     else
       if ! region="$(slurp 2>&1)"; then
-        notify-send "Recording cancelled" "Selection was cancelled" -a 'Recorder' &
-        disown
         exit 1
       fi
     fi
 
-    # notify-send "Starting recording" 'recording_'"$(getdate)"'.mp4' -a 'Recorder' &
-    disown
     if [[ $SOUND_FLAG -eq 1 ]]; then
-      start_recording wf-recorder --pixel-format yuv420p -f './recording_'"$(getdate)"'.mp4' -t --geometry "$region" --audio="$(getaudiooutput)"
+      start_recording wf-recorder -f './recording_'"$(getdate)"'.mp4' --geometry "$region" --audio="$(getaudiooutput)"
     else
-      start_recording wf-recorder --pixel-format yuv420p -f './recording_'"$(getdate)"'.mp4' -t --geometry "$region"
+      start_recording wf-recorder -f './recording_'"$(getdate)"'.mp4' --geometry "$region"
     fi
   fi
 fi

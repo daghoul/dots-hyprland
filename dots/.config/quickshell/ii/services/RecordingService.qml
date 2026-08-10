@@ -22,9 +22,20 @@ Singleton {
         }
     }
 
+    property string pidFilePath: {
+        var runtimeDir = Quickshell.env("XDG_RUNTIME_DIR")
+        console.log("XDG_RUNTIME_DIR:", runtimeDir)
+        if (runtimeDir) {
+            var path = runtimeDir + "/wf-recorder.pid"
+            return path
+        } else {
+            return "/tmp/wf-recorder.pid"
+        }
+    }
+
     FileView {
         id: pidFileView
-        path: "/tmp/wf-recorder.pid"
+        path: root.pidFilePath
         watchChanges: true
 
         onFileChanged: {
@@ -40,8 +51,9 @@ Singleton {
     Process {
         id: checkProc
         command: ["bash", "-c",
-            "if [ -f /tmp/wf-recorder.pid ]; then " +
-                "pid=$(cat /tmp/wf-recorder.pid 2>/dev/null); " +
+            "pidfile=\"" + root.pidFilePath + "\"; " +
+            "if [ -f \"$pidfile\" ]; then " +
+                "pid=$(cat \"$pidfile\" 2>/dev/null); " +
                 "if kill -0 $pid 2>/dev/null; then " +
                     "echo \"1 $(ps -o etimes= -p $pid 2>/dev/null | tr -d ' ')\"; " +
                 "else echo 0; fi " +

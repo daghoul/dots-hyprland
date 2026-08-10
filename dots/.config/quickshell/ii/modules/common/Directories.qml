@@ -23,9 +23,15 @@ Singleton {
     // Other dirs used by the shell, without "file://"
     property string assetsPath: Quickshell.shellPath("assets")
     property string scriptPath: Quickshell.shellPath("scripts")
+    // Per-user runtime dir for transient files. Using a shared "/tmp/quickshell"
+    // breaks on multi-user machines: whoever logs in first owns the dir and
+    // locks every other user out (grim/magick get "Permission denied", so
+    // screenshots never write and the clipboard keeps stale/empty content).
+    // XDG_RUNTIME_DIR (/run/user/$UID) is private per-user and auto-cleaned.
+    readonly property string runtimeTmp: (Quickshell.env("XDG_RUNTIME_DIR") || "/tmp") + "/quickshell"
     property string favicons: FileUtils.trimFileProtocol(`${Directories.cache}/media/favicons`)
     property string coverArt: FileUtils.trimFileProtocol(`${Directories.cache}/media/coverart`)
-    property string tempImages: "/tmp/quickshell/media/images"
+    property string tempImages: `${runtimeTmp}/media/images`
     property string latexOutput: FileUtils.trimFileProtocol(`${Directories.cache}/media/latex`)
     property string shellConfig: FileUtils.trimFileProtocol(`${Directories.config}/illogical-impulse`)
     property string shellConfigName: "config.json"
@@ -35,8 +41,8 @@ Singleton {
 	property string conflictCachePath: FileUtils.trimFileProtocol(`${Directories.cache}/conflict-killer`)
     property string notificationsPath: FileUtils.trimFileProtocol(`${Directories.cache}/notifications/notifications.json`)
     property string generatedMaterialThemePath: FileUtils.trimFileProtocol(`${Directories.state}/user/generated/colors.json`)
-    property string cliphistDecode: FileUtils.trimFileProtocol(`/tmp/quickshell/media/cliphist`)
-    property string screenshotTemp: "/tmp/quickshell/media/screenshot"
+    property string cliphistDecode: FileUtils.trimFileProtocol(`${runtimeTmp}/media/cliphist`)
+    property string screenshotTemp: `${runtimeTmp}/media/screenshot`
     property string wallpaperSwitchScriptPath: FileUtils.trimFileProtocol(`${Directories.scriptPath}/colors/switchwall.sh`)
     property string userActions: FileUtils.trimFileProtocol(`${Directories.shellConfig}/actions`)
     property string recordScriptPath: FileUtils.trimFileProtocol(`${Directories.scriptPath}/videos/record.sh`)

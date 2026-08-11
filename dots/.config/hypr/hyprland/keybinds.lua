@@ -162,10 +162,10 @@ local function zoomfunction(value)
 		hl.config({ cursor = { zoom_factor = zoomvalue + value } })
 	end
 end
-hl.bind("SUPER + mouse_up", function()
+hl.bind("SUPER + mouse_down", function()
 	zoomfunction(-0.3)
 end, { repeating = true, description = "Screen: Zoom out" })
-hl.bind("SUPER + mouse_down", function()
+hl.bind("SUPER + mouse_up", function()
 	zoomfunction(0.3)
 end, { repeating = true, description = "Screen: Zoom in" })
 

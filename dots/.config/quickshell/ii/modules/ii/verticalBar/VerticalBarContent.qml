@@ -89,11 +89,14 @@ Item { // Bar content region
             vertical: true
             padding: 8
             Resources {
+                visible: Config.options.bar.resources.enable
                 Layout.fillWidth: true
                 Layout.fillHeight: false
             }
             
-            HorizontalBarSeparator {}
+            HorizontalBarSeparator {
+                visible: Config.options.bar.resources.enable
+            }
 
             VerticalMedia {
                 Layout.fillWidth: true

@@ -114,6 +114,7 @@ Item { // Bar content region
             implicitWidth: root.centerSideModuleWidth
 
             Resources {
+                visible: Config.options.bar.resources.enable
                 alwaysShowAllResources: root.useShortenedForm === 2
                 Layout.fillWidth: root.useShortenedForm === 2
             }

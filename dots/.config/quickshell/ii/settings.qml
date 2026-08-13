@@ -50,11 +50,6 @@ ApplicationWindow {
             component: "modules/settings/InterfaceConfig.qml"
         },
         {
-            name: Translation.tr("Privacy"),
-            icon: "privacy_tip",
-            component: "modules/settings/PrivacyConfig.qml"
-        },
-        {
             name: Translation.tr("Services"),
             icon: "settings",
             component: "modules/settings/ServicesConfig.qml"

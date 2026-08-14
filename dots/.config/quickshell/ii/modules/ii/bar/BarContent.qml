@@ -349,6 +349,10 @@ Item { // Bar content region
                 Layout.alignment: Qt.AlignVCenter
             }
 
+            SystemUpdateIndicator {
+                Layout.alignment: Qt.AlignVCenter
+            }
+
             SysTray {
                 visible: root.useShortenedForm === 0
                 Layout.fillWidth: false

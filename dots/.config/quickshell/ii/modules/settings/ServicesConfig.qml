@@ -8,67 +8,6 @@ ContentPage {
     forceWidth: true
 
     ContentSection {
-        id: systemUpdate
-        icon: "sync"
-        title: Translation.tr("System Updates")
-
-        readonly property bool updateChecksPresent: Config.options.updates.enableCheck
-
-        ConfigSwitch {
-            text: Translation.tr("Enable system update checks")
-            buttonIcon: "published_with_changes"
-            checked: Config.options.updates.enableCheck
-            onCheckedChanged: {
-                Config.options.updates.enableCheck = checked;
-            }
-        }
-
-        ContentSubsection {
-            visible: systemUpdate.updateChecksPresent
-            title: Translation.tr("System update check settings")
-            Layout.fillWidth: false
-            ConfigSpinBox {
-                visible: systemUpdate.updateChecksPresent
-                icon: "hourglass"
-                text: Translation.tr("Update check interval (in minutes)")
-                value: Config.options.updates.checkInterval
-                from: 10
-                to: 120
-                stepSize: 1
-                onValueChanged: {
-                    Config.options.updates.checkInterval = value;
-                }
-            }
-
-            ConfigSpinBox {
-                visible: systemUpdate.updateChecksPresent
-                icon: "av_timer"
-                text: Translation.tr("Advise update threshold (in packages)")
-                value: Config.options.updates.adviseUpdateThreshold
-                from: 10
-                to: 100
-                stepSize: 1
-                onValueChanged: {
-                    Config.options.updates.adviseUpdateThreshold = value;
-                }
-            }
-
-            ConfigSpinBox {
-                visible: systemUpdate.updateChecksPresent
-                icon: "sync_problem"
-                text: Translation.tr("Strongly advise update threshold (in packages)")
-                value: Config.options.updates.stronglyAdviseUpdateThreshold
-                from: 200
-                to: 500
-                stepSize: 1
-                onValueChanged: {
-                    Config.options.updates.stronglyAdviseUpdateThreshold = value;
-                }
-            }
-        }
-    }
-
-    ContentSection {
         icon: "cell_tower"
         title: Translation.tr("Networking")
 
@@ -249,31 +188,66 @@ ContentPage {
         }
     }
 
-    // There's no update indicator in ii for now so we shouldn't show this yet
-    // ContentSection {
-    //     icon: "deployed_code_update"
-    //     title: Translation.tr("System updates (Arch only)")
+    ContentSection {
+        id: systemUpdate
+        icon: "deployed_code_update"
+        title: Translation.tr("System Updates")
 
-    //     ConfigSwitch {
-    //         text: Translation.tr("Enable update checks")
-    //         checked: Config.options.updates.enableCheck
-    //         onCheckedChanged: {
-    //             Config.options.updates.enableCheck = checked;
-    //         }
-    //     }
+        readonly property bool updateChecksPresent: Config.options.updates.enableCheck
 
-    //     ConfigSpinBox {
-    //         icon: "av_timer"
-    //         text: Translation.tr("Check interval (mins)")
-    //         value: Config.options.updates.checkInterval
-    //         from: 60
-    //         to: 1440
-    //         stepSize: 60
-    //         onValueChanged: {
-    //             Config.options.updates.checkInterval = value;
-    //         }
-    //     }
-    // }
+        ConfigSwitch {
+            text: Translation.tr("Enable system update checks")
+            buttonIcon: "published_with_changes"
+            checked: Config.options.updates.enableCheck
+            onCheckedChanged: {
+                Config.options.updates.enableCheck = checked;
+            }
+        }
+
+        ContentSubsection {
+            visible: systemUpdate.updateChecksPresent
+            title: Translation.tr("System update check settings")
+            Layout.fillWidth: false
+            ConfigSpinBox {
+                visible: systemUpdate.updateChecksPresent
+                icon: "hourglass"
+                text: Translation.tr("Update check interval (in minutes)")
+                value: Config.options.updates.checkInterval
+                from: 10
+                to: 120
+                stepSize: 1
+                onValueChanged: {
+                    Config.options.updates.checkInterval = value;
+                }
+            }
+
+            ConfigSpinBox {
+                visible: systemUpdate.updateChecksPresent
+                icon: "av_timer"
+                text: Translation.tr("Advise update threshold (in packages)")
+                value: Config.options.updates.adviseUpdateThreshold
+                from: 10
+                to: 100
+                stepSize: 1
+                onValueChanged: {
+                    Config.options.updates.adviseUpdateThreshold = value;
+                }
+            }
+
+            ConfigSpinBox {
+                visible: systemUpdate.updateChecksPresent
+                icon: "sync_problem"
+                text: Translation.tr("Strongly advise update threshold (in packages)")
+                value: Config.options.updates.stronglyAdviseUpdateThreshold
+                from: 200
+                to: 500
+                stepSize: 1
+                onValueChanged: {
+                    Config.options.updates.stronglyAdviseUpdateThreshold = value;
+                }
+            }
+        }
+    }
 
     ContentSection {
         icon: "weather_mix"

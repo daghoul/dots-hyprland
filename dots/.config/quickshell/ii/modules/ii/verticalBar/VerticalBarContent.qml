@@ -201,6 +201,12 @@ Item { // Bar content region
                 Layout.preferredWidth: rightSidebarButton.width
             }
 
+            Bar.SystemUpdateIndicator {
+                vertical: true
+                Layout.alignment: Qt.AlignHCenter
+                // Layout.preferredWidth: rightSidebarButton.width
+            }
+
 
             RippleButton { // Right sidebar button
                 id: rightSidebarButton

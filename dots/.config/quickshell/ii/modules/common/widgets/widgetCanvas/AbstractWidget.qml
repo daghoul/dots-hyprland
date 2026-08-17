@@ -20,10 +20,12 @@ MouseArea {
     }
 
     Behavior on x {
+        enabled: Appearance.animationsEnabled
         id: xBehavior
         animation: Appearance.animation.elementMove.numberAnimation.createObject(this)
     }
     Behavior on y {
+        enabled: Appearance.animationsEnabled
         id: yBehavior
         animation: Appearance.animation.elementMove.numberAnimation.createObject(this)
     }

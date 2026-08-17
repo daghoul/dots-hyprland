@@ -69,10 +69,10 @@ RowLayout {
         implicitWidth: root.searchingText == "" ? Appearance.sizes.searchWidthCollapsed : Appearance.sizes.searchWidth
 
         Behavior on implicitWidth {
+            enabled: (root.animateWidth) && Appearance.animationsEnabled
             id: searchWidthBehavior
-            enabled: root.animateWidth
             NumberAnimation {
-                duration: Appearance.animationsEnabled ? 300 : 0
+                duration: 300
                 easing.type: Appearance.animation.elementMove.type
                 easing.bezierCurve: Appearance.animation.elementMove.bezierCurve
             }

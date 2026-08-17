@@ -16,7 +16,7 @@ Button {
     property real buttonRadius: Appearance?.rounding?.small ?? 4
     property real buttonRadiusPressed: buttonRadius
     property real buttonEffectiveRadius: root.down ? root.buttonRadiusPressed : root.buttonRadius
-    property int rippleDuration: Appearance.animationsEnabled ? 1200 : 0
+    property int rippleDuration: 1200
     property bool rippleEnabled: true
     property var downAction // When left clicking (down)
     property var releaseAction // When left clicking (release)
@@ -72,7 +72,7 @@ Button {
             }
             root.down = true
             if (root.downAction) root.downAction();
-            if (!root.rippleEnabled) return;
+            if (!root.rippleEnabled || !Appearance.animationsEnabled) return;
             const {x,y} = event
             startRipple(x, y)
         }
@@ -81,12 +81,12 @@ Button {
             if (event.button != Qt.LeftButton) return;
             if (root.releaseAction) root.releaseAction();
             root.click() // Because the MouseArea already consumed the event
-            if (!root.rippleEnabled) return;
+            if (!root.rippleEnabled || !Appearance.animationsEnabled) return;
             rippleFadeAnim.restart();
         }
         onCanceled: (event) => {
             root.down = false
-            if (!root.rippleEnabled) return;
+            if (!root.rippleEnabled || !Appearance.animationsEnabled) return;
             rippleFadeAnim.restart();
         }
     }
@@ -138,6 +138,7 @@ Button {
 
         color: root.buttonColor
         Behavior on color {
+            enabled: Appearance.animationsEnabled
             animation: Appearance?.animation.elementMoveFast.colorAnimation.createObject(this)
         }
 
@@ -161,6 +162,7 @@ Button {
             property real implicitHeight: 0
 
             Behavior on opacity {
+                enabled: Appearance.animationsEnabled
                 animation: Appearance?.animation.elementMoveFast.colorAnimation.createObject(this)
             }
 

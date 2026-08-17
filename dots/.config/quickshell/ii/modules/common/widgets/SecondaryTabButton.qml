@@ -10,7 +10,7 @@ TabButton {
     id: root
     property string buttonText
     property string buttonIcon
-    property int rippleDuration: Appearance.animationsEnabled ? 1200 : 0
+    property int rippleDuration: 1200
     property int tabContentWidth: buttonBackground.width - buttonBackground.radius*2
 
     property color colBackground: ColorUtils.transparentize(Appearance.colors.colSurfaceContainer)
@@ -39,11 +39,16 @@ TabButton {
             const stateEndY = stateY + buttonBackground.height
             rippleAnim.radius = Math.sqrt(Math.max(dist(0, stateY), dist(0, stateEndY), dist(width, stateY), dist(width, stateEndY)))
 
-            rippleFadeAnim.complete();
-            rippleAnim.restart();
+            // No animations when it is disabled
+            if (Appearance.animationsEnabled) {
+                rippleFadeAnim.complete();
+                rippleAnim.restart();
+            }
         }
         onReleased: (event) => {
-            rippleFadeAnim.restart();
+            if (Appearance.animationsEnabled) {
+                rippleFadeAnim.restart();
+            }
         }
     }
 
@@ -106,6 +111,7 @@ TabButton {
         }
         
         Behavior on color {
+            enabled: Appearance.animationsEnabled
             animation: Appearance.animation.elementMoveFast.colorAnimation.createObject(this)
         }
 
@@ -120,6 +126,7 @@ TabButton {
             visible: width > 0 && height > 0
 
             Behavior on opacity {
+                enabled: Appearance.animationsEnabled
                 animation: Appearance?.animation.elementMoveFast.colorAnimation.createObject(this)
             }
 
@@ -161,6 +168,7 @@ TabButton {
                     fill: root.checked ? 1 : 0
                     color: root.checked ? Appearance.colors.colPrimary : Appearance.colors.colOnLayer1
                     Behavior on color {
+                        enabled: Appearance.animationsEnabled
                         animation: Appearance.animation.elementMoveFast.colorAnimation.createObject(this)
                     }
                 }
@@ -172,6 +180,7 @@ TabButton {
                 color: root.checked ? Appearance.colors.colPrimary : Appearance.colors.colOnLayer1
                 text: buttonText
                 Behavior on color {
+                    enabled: Appearance.animationsEnabled
                     animation: Appearance.animation.elementMoveFast.colorAnimation.createObject(this)
                 }
             }

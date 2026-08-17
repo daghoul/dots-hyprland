@@ -43,6 +43,7 @@ Item {
         implicitWidth: contentWidth
 
         Behavior on implicitWidth {
+            enabled: Appearance.animationsEnabled
             animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
         }
 
@@ -119,6 +120,7 @@ Item {
                 opacity: previewPopup.show ? 1 : 0
                 visible: opacity > 0
                 Behavior on opacity {
+                    enabled: Appearance.animationsEnabled
                     animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
                 }
             }
@@ -129,6 +131,7 @@ Item {
                 opacity: previewPopup.show ? 1 : 0
                 visible: opacity > 0
                 Behavior on opacity {
+                    enabled: Appearance.animationsEnabled
                     animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
                 }
                 clip: true
@@ -140,9 +143,11 @@ Item {
                 implicitHeight: previewRowLayout.implicitHeight + padding * 2
                 implicitWidth: previewRowLayout.implicitWidth + padding * 2
                 Behavior on implicitWidth {
+                    enabled: Appearance.animationsEnabled
                     animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
                 }
                 Behavior on implicitHeight {
+                    enabled: Appearance.animationsEnabled
                     animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
                 }
 

@@ -94,12 +94,15 @@ AbstractBackgroundWidget {
             color: ColorUtils.transparentize(Appearance.colors.colSecondaryContainer, root.clockStyle === "cookie" ? 0 : 1)
 
             Behavior on implicitWidth {
+                enabled: Appearance.animationsEnabled
                 animation: Appearance.animation.elementResize.numberAnimation.createObject(this)
             }
             Behavior on implicitHeight {
+                enabled: Appearance.animationsEnabled
                 animation: Appearance.animation.elementResize.numberAnimation.createObject(this)
             }
             Behavior on opacity {
+                enabled: Appearance.animationsEnabled
                 animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
             }
 
@@ -140,6 +143,7 @@ AbstractBackgroundWidget {
         opacity: shown ? 1 : 0
         visible: opacity > 0
         Behavior on opacity {
+            enabled: Appearance.animationsEnabled
             animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
         }
         spacing: 4

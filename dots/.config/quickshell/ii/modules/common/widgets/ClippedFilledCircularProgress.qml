@@ -16,7 +16,7 @@ Item {
     property bool fill: true
     property int fillOverflow: 2
     property bool enableAnimation: true
-    property int animationDuration: Appearance.animationsEnabled ? 800 : 0
+    property int animationDuration: 800
     property var easingType: Easing.OutCubic
     property bool accountForLightBleeding: true
     default property Item textMask: Item {
@@ -40,7 +40,7 @@ Item {
     property real startAngle: -90
 
     Behavior on degree {
-        enabled: root.enableAnimation
+        enabled: (root.enableAnimation) && Appearance.animationsEnabled
         NumberAnimation {
             duration: root.animationDuration
             easing.type: root.easingType

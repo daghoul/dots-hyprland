@@ -22,6 +22,7 @@ Scope {
             anchors.fill: parent
             opacity: active ? 1 : 0
             Behavior on opacity {
+                enabled: Appearance.animationsEnabled
                 animation: Appearance.animation.elementMoveFast.colorAnimation.createObject(this)
             }
             sourceComponent: root.lockSurface

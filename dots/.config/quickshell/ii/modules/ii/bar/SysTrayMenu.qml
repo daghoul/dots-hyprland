@@ -84,12 +84,15 @@ PopupWindow {
             implicitHeight: stackView.implicitHeight + popupBackground.padding * 2
 
             Behavior on opacity {
+                enabled: Appearance.animationsEnabled
                 animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
             }
             Behavior on implicitHeight {
+                enabled: Appearance.animationsEnabled
                 animation: Appearance.animation.elementResize.numberAnimation.createObject(this)
             }
             Behavior on implicitWidth {
+                enabled: Appearance.animationsEnabled
                 animation: Appearance.animation.elementResize.numberAnimation.createObject(this)
             }
 
@@ -114,7 +117,7 @@ PopupWindow {
         }
     }
 
-    component NoAnim: Transition {
+    component NoAnim: Transition { 
         NumberAnimation {
             duration: 0
         }
@@ -128,6 +131,7 @@ PopupWindow {
         opacity: shown ? 1 : 0
 
         Behavior on opacity {
+            enabled: Appearance.animationsEnabled
             animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
         }
 

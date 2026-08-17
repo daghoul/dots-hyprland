@@ -78,15 +78,19 @@ Item { // Window
     }
 
     Behavior on x {
+        enabled: Appearance.animationsEnabled
         animation: Appearance.animation.elementMoveEnter.numberAnimation.createObject(this)
     }
     Behavior on y {
+        enabled: Appearance.animationsEnabled
         animation: Appearance.animation.elementMoveEnter.numberAnimation.createObject(this)
     }
     Behavior on width {
+        enabled: Appearance.animationsEnabled
         animation: Appearance.animation.elementMoveEnter.numberAnimation.createObject(this)
     }
     Behavior on height {
+        enabled: Appearance.animationsEnabled
         animation: Appearance.animation.elementMoveEnter.numberAnimation.createObject(this)
     }
 
@@ -134,9 +138,11 @@ Item { // Window
             height: iconSize
 
             Behavior on width {
+                enabled: Appearance.animationsEnabled
                 animation: Appearance.animation.elementMoveEnter.numberAnimation.createObject(this)
             }
             Behavior on height {
+                enabled: Appearance.animationsEnabled
                 animation: Appearance.animation.elementMoveEnter.numberAnimation.createObject(this)
             }
         }

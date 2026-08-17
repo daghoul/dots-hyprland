@@ -15,14 +15,16 @@ Item {
 
     property real fillColorAlpha: root.style === "hollow" ? 0 : 1
     Behavior on fillColorAlpha {
+        enabled: Appearance.animationsEnabled
         animation: Appearance.animation.elementResize.numberAnimation.createObject(this)
     }
 
     rotation: -90 + (360 / 12) * (root.clockHour + root.clockMinute / 60)
     Behavior on rotation {
+        enabled: Appearance.animationsEnabled
         animation: RotationAnimation {
             direction: RotationAnimation.Clockwise
-            duration: Appearance.animationsEnabled ? 300 : 0
+            duration: 300
             easing.type: Easing.BezierSpline
             easing.bezierCurve: Appearance.animationCurves.emphasized
         }
@@ -39,6 +41,7 @@ Item {
         border.width: 4
 
         Behavior on x {
+            enabled: Appearance.animationsEnabled
             animation: Appearance.animation.elementResize.numberAnimation.createObject(this)
         }
     }

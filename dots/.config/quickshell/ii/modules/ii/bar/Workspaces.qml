@@ -42,6 +42,7 @@ ButtonMouseArea {
 
     property real specialBlur: (wsModel.specialWorkspaceActive && !containsMouse) ? 1 : 0
     Behavior on specialBlur {
+        enabled: Appearance.animationsEnabled
         animation: Appearance.animation.elementMoveSmall.numberAnimation.createObject(this)
     }
 
@@ -133,12 +134,15 @@ ButtonMouseArea {
                         implicitHeight: root.vertical ? undirectionalLength : undirectionalWidth
 
                         Behavior on undirectionalWidth {
+                            enabled: Appearance.animationsEnabled
                             animation: Appearance.animation.elementMoveSmall.numberAnimation.createObject(this)
                         }
                         Behavior on undirectionalLength {
+                            enabled: Appearance.animationsEnabled
                             animation: Appearance.animation.elementMoveSmall.numberAnimation.createObject(this)
                         }
                         Behavior on undirectionalOffset {
+                            enabled: Appearance.animationsEnabled
                             animation: Appearance.animation.elementMoveSmall.numberAnimation.createObject(this)
                         }
                     }
@@ -236,9 +240,11 @@ ButtonMouseArea {
                         implicitSize: NumberUtils.roundToEven(root.workspaceIconSize)
 
                         Behavior on opacity {
+                            enabled: Appearance.animationsEnabled
                             animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
                         }
                         Behavior on cornerMargin {
+                            enabled: Appearance.animationsEnabled
                             animation: Appearance.animation.elementMoveSmall.numberAnimation.createObject(this)
                         }
                     }
@@ -266,9 +272,11 @@ ButtonMouseArea {
                             scale: ((!root.superPressAndHeld && Config.options?.bar.workspaces.showAppIcons) ? root.workspaceIconSize : root.workspaceIconSizeShrinked) / root.workspaceIconSize
 
                             Behavior on opacity {
+                                enabled: Appearance.animationsEnabled
                                 animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
                             }
                             Behavior on scale {
+                                enabled: Appearance.animationsEnabled
                                 animation: Appearance.animation.elementMoveSmall.numberAnimation.createObject(this)
                             }
 
@@ -289,7 +297,7 @@ ButtonMouseArea {
         scale: 0.8 + 0.2 * root.specialBlur
 
         opacity: root.specialBlur
-        Behavior on opacity {} // Don't animate, as specialBlur is already animated
+        Behavior on opacity { enabled: Appearance.animationsEnabled } // Don't animate, as specialBlur is already animated
     }
 
     /////////////////// Super key press handling ///////////////////

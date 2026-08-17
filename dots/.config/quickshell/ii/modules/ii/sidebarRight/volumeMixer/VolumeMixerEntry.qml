@@ -58,13 +58,15 @@ Item {
                 opacity: root.node?.audio.muted ? 0.4 : 1.0
 
                 Behavior on opacity {
+                    enabled: Appearance.animationsEnabled
                     NumberAnimation {
-                        duration: Appearance.animationsEnabled ? 150 : 0
+                        duration: 150
                     }
                 }
                 Behavior on desaturation {
+                    enabled: Appearance.animationsEnabled
                     NumberAnimation {
-                        duration: Appearance.animationsEnabled ? 150 : 0
+                        duration: 150
                     }
                 }
             }

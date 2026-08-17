@@ -22,6 +22,7 @@ Item {
     }
 
     Behavior on opacity {
+        enabled: Appearance.animationsEnabled
         animation: Appearance.animation.elementMoveEnter.numberAnimation.createObject(this)
     }
 

@@ -36,6 +36,7 @@ Flickable {
     }
 
     Behavior on contentY {
+        enabled: Appearance.animationsEnabled
         NumberAnimation {
             id: scrollAnim
             duration: Appearance.animation.scroll.duration

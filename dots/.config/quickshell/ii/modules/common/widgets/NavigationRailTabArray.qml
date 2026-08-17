@@ -26,8 +26,9 @@ Item {
         implicitWidth: tabBarColumn?.children[root.currentIndex]?.visualWidth ?? 100
 
         Behavior on anchors.topMargin {
+            enabled: Appearance.animationsEnabled
             NumberAnimation {
-                duration: Appearance.animationsEnabled ? Appearance.animationCurves.expressiveFastSpatialDuration : 0
+                duration: Appearance.animationCurves.expressiveFastSpatialDuration
                 easing.type: Appearance.animation.elementMove.type
                 easing.bezierCurve: Appearance.animationCurves.expressiveFastSpatial
             }

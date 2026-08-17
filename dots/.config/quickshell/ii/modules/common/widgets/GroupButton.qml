@@ -63,19 +63,21 @@ Button {
     }
 
     Behavior on implicitWidth {
-        enabled: root.enableImplicitWidthAnimation
+        enabled: (root.enableImplicitWidthAnimation) && Appearance.animationsEnabled
         animation: Appearance.animation.clickBounce.numberAnimation.createObject(this)
     }
 
     Behavior on implicitHeight {
-        enabled: root.enableImplicitHeightAnimation
+        enabled: (root.enableImplicitHeightAnimation) && Appearance.animationsEnabled
         animation: Appearance.animation.clickBounce.numberAnimation.createObject(this)
     }
 
     Behavior on leftRadius {
+        enabled: Appearance.animationsEnabled
         animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
     }
     Behavior on rightRadius {
+        enabled: Appearance.animationsEnabled
         animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
     }
 
@@ -128,6 +130,7 @@ Button {
 
         color: root.color
         Behavior on color {
+            enabled: Appearance.animationsEnabled
             animation: Appearance.animation.elementMoveFast.colorAnimation.createObject(this)
         }
 

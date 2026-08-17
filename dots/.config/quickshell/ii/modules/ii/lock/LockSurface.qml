@@ -83,6 +83,7 @@ MouseArea {
     property real toolbarScale: 0.9
     property real toolbarOpacity: 0
     Behavior on toolbarScale {
+        enabled: Appearance.animationsEnabled
         NumberAnimation {
             duration: Appearance.animation.elementMove.duration
             easing.type: Appearance.animation.elementMove.type
@@ -90,6 +91,7 @@ MouseArea {
         }
     }
     Behavior on toolbarOpacity {
+        enabled: Appearance.animationsEnabled
         animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
     }
 
@@ -159,9 +161,14 @@ MouseArea {
 
         // Entry: fires after sourceComponent is fully instantiated.
         onLoaded: {
-            mediaScale   = 0.85
-            mediaOpacity = 0.0
-            entryAnim.restart()
+            if (Appearance.animationsEnabled) {
+                mediaScale   = 0.85
+                mediaOpacity = 0.0
+                entryAnim.restart()
+            } else {
+                mediaScale   = 1
+                mediaOpacity = 1
+            }
         }
 
         ParallelAnimation {
@@ -227,6 +234,7 @@ MouseArea {
             bottomMargin: 20
         }
         Behavior on anchors.bottomMargin {
+            enabled: Appearance.animationsEnabled
             animation: Appearance.animation.elementMove.numberAnimation.createObject(this)
         }
 
@@ -502,6 +510,16 @@ MouseArea {
 
     function closeConfirmPopup(execute) {
         confirmPopup.confirmExecuteOnClose = execute;
+
+        // Skip animation when disabled
+        if (!Appearance.animationsEnabled) {
+            if (confirmPopup.confirmExecuteOnClose) {
+                root.context.unlocked(root.pendingAction);
+            }
+            root.showConfirmDialog = false;
+            root.pendingAction = null;
+            return;
+        }
         closePopupAnim.restart();
     }
 
@@ -512,7 +530,7 @@ MouseArea {
                 target: confirmPopup
                 property: "scale"
                 to: 0
-                duration: Appearance.animationsEnabled ? 250 : 0
+                duration: 250
                 easing.type: Easing.InBack
                 easing.overshoot: 1.4
             }
@@ -520,7 +538,7 @@ MouseArea {
                 target: confirmPopup
                 property: "opacity"
                 to: 0
-                duration: Appearance.animationsEnabled ? 250 : 0
+                duration: 250
                 easing.type: Easing.InBack
             }
         }
@@ -569,15 +587,17 @@ MouseArea {
         opacity: root.showConfirmDialog ? 1 : 0
 
         Behavior on scale {
+            enabled: Appearance.animationsEnabled
             NumberAnimation {
-                duration: Appearance.animationsEnabled ? 350 : 0
+                duration: 350
                 easing.type: Easing.OutBack
                 easing.overshoot: 1.8
             }
         }
         Behavior on opacity {
+            enabled: Appearance.animationsEnabled
             NumberAnimation {
-                duration: Appearance.animationsEnabled ? 180 : 0
+                duration: 180
                 easing.type: Easing.OutCubic
             }
         }

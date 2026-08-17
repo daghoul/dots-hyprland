@@ -49,6 +49,7 @@ Item { // Player instance
             text: iconName
 
             Behavior on color {
+                enabled: Appearance.animationsEnabled
                 animation: Appearance.animation.elementMoveFast.colorAnimation.createObject(this)
             }
         }
@@ -325,6 +326,7 @@ Item { // Player instance
                             text: root.player?.isPlaying ? "pause" : "play_arrow"
 
                             Behavior on color {
+                                enabled: Appearance.animationsEnabled
                                 animation: Appearance.animation.elementMoveFast.colorAnimation.createObject(this)
                             }
                         }

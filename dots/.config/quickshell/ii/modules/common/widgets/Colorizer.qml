@@ -9,6 +9,7 @@ MultiEffect {
     brightness: 1 - sourceColor.hslLightness
 
     Behavior on colorizationColor {
+        enabled: Appearance.animationsEnabled
         animation: Appearance.animation.elementMoveFast.colorAnimation.createObject(this)
     }
 }

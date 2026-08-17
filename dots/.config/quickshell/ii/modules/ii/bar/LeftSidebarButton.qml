@@ -58,6 +58,7 @@ RippleButton {
             color: Appearance.colors.colTertiary
 
             Behavior on opacity {
+                enabled: Appearance.animationsEnabled
                 animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
             }
         }

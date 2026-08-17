@@ -30,12 +30,15 @@ Item {
         clip: true
 
         Behavior on implicitWidth {
+            enabled: Appearance.animationsEnabled
             animation: Appearance?.animation.elementMoveFast.numberAnimation.createObject(this)
         }
         Behavior on implicitHeight {
+            enabled: Appearance.animationsEnabled
             animation: Appearance?.animation.elementMoveFast.numberAnimation.createObject(this)
         }
         Behavior on opacity {
+            enabled: Appearance.animationsEnabled
             animation: Appearance?.animation.elementMoveFast.numberAnimation.createObject(this)
         }
 

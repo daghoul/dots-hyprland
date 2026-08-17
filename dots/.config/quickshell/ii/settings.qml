@@ -159,6 +159,7 @@ ApplicationWindow {
                 Layout.margins: 5
                 implicitWidth: navRail.expanded ? 150 : fab.baseSize
                 Behavior on implicitWidth {
+                    enabled: Appearance.animationsEnabled
                     animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
                 }
                 NavigationRail { // Window content with navigation rail and content pane
@@ -246,9 +247,23 @@ ApplicationWindow {
                     Connections {
                         target: root
                         function onCurrentPageChanged() {
-                            switchAnim.complete();
-                            switchAnim.start();
+                            if (Appearance.animationsEnabled) {
+                                switchAnim.complete();
+                                switchAnim.start();
+                            } else {
+                                changePage.start()
+                            }
                         }
+                    }
+
+                    // If Appearance.animationsEnabled is false, the switchAnim sequence never starts,
+                    // so the PropertyAction inside it won't run. This external PropertyAction ensures
+                    // the page source updates, if it set to false (Appearance.animationsEnabled).
+                    PropertyAction {
+                        id: changePage
+                        target: pageLoader
+                        property: "source"
+                        value: root.pages[root.currentPage].component
                     }
 
                     SequentialAnimation {
@@ -259,7 +274,7 @@ ApplicationWindow {
                             properties: "opacity"
                             from: 1
                             to: 0
-                            duration: Appearance.animationsEnabled ? 100 : 0
+                            duration: 100
                             easing.type: Appearance.animation.elementMoveExit.type
                             easing.bezierCurve: Appearance.animationCurves.emphasizedFirstHalf
                         }
@@ -281,7 +296,7 @@ ApplicationWindow {
                                 properties: "opacity"
                                 from: 0
                                 to: 1
-                                duration: Appearance.animationsEnabled ? 200 : 0
+                                duration: 200
                                 easing.type: Appearance.animation.elementMoveEnter.type
                                 easing.bezierCurve: Appearance.animationCurves.emphasizedLastHalf
                             }
@@ -289,7 +304,7 @@ ApplicationWindow {
                                 target: pageLoader
                                 properties: "anchors.topMargin"
                                 to: 0
-                                duration: Appearance.animationsEnabled ? 200 : 0
+                                duration: 200
                                 easing.type: Appearance.animation.elementMoveEnter.type
                                 easing.bezierCurve: Appearance.animationCurves.emphasizedLastHalf
                             }

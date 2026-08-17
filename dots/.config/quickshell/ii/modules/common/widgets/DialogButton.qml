@@ -33,6 +33,7 @@ RippleButton {
         color: root.enabled ? root.colEnabled : root.colDisabled
 
         Behavior on color {
+            enabled: Appearance.animationsEnabled
             animation: Appearance.animation.elementMoveFast.colorAnimation.createObject(this)
         }
     }

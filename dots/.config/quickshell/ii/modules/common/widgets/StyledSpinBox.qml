@@ -56,6 +56,7 @@ SpinBox {
             root.down.hovered ? Appearance.colors.colLayer2Hover : 
             ColorUtils.transparentize(Appearance.colors.colLayer2)
         Behavior on color {
+            enabled: Appearance.animationsEnabled
             animation: Appearance.animation.elementMoveFast.colorAnimation.createObject(this)
         }
 
@@ -83,6 +84,7 @@ SpinBox {
             root.up.hovered ? Appearance.colors.colLayer2Hover : 
             ColorUtils.transparentize(Appearance.colors.colLayer2)
         Behavior on color {
+            enabled: Appearance.animationsEnabled
             animation: Appearance.animation.elementMoveFast.colorAnimation.createObject(this)
         }
 

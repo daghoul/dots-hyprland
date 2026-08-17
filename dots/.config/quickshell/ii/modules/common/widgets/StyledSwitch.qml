@@ -25,9 +25,11 @@ Switch {
         border.color: root.checked ? root.activeColor : Appearance.m3colors.m3outline
 
         Behavior on color {
+            enabled: Appearance.animationsEnabled
             animation: Appearance.animation.elementMoveFast.colorAnimation.createObject(this)
         }
         Behavior on border.color {
+            enabled: Appearance.animationsEnabled
             animation: Appearance.animation.elementMoveFast.colorAnimation.createObject(this)
         }
     }
@@ -43,27 +45,31 @@ Switch {
         anchors.leftMargin: root.checked ? ((root.pressed || root.down) ? (22 * root.scale) : 24 * root.scale) : ((root.pressed || root.down) ? (2 * root.scale) : 8 * root.scale)
 
         Behavior on anchors.leftMargin {
+            enabled: Appearance.animationsEnabled
             NumberAnimation {
-                duration: Appearance.animationsEnabled ? Appearance.animationCurves.expressiveFastSpatialDuration : 0
+                duration: Appearance.animationCurves.expressiveFastSpatialDuration
                 easing.type: Easing.BezierSpline
                 easing.bezierCurve: Appearance.animationCurves.expressiveFastSpatial
             }
         }
         Behavior on width {
+            enabled: Appearance.animationsEnabled
             NumberAnimation {
-                duration: Appearance.animationsEnabled ? Appearance.animationCurves.expressiveFastSpatialDuration : 0
+                duration: Appearance.animationCurves.expressiveFastSpatialDuration
                 easing.type: Easing.BezierSpline
                 easing.bezierCurve: Appearance.animationCurves.expressiveFastSpatial
             }
         }
         Behavior on height {
+            enabled: Appearance.animationsEnabled
             NumberAnimation {
-                duration: Appearance.animationsEnabled ? Appearance.animationCurves.expressiveFastSpatialDuration : 0
+                duration: Appearance.animationCurves.expressiveFastSpatialDuration
                 easing.type: Easing.BezierSpline
                 easing.bezierCurve: Appearance.animationCurves.expressiveFastSpatial
             }
         }
         Behavior on color {
+            enabled: Appearance.animationsEnabled
             animation: Appearance.animation.elementMoveFast.colorAnimation.createObject(this)
         }
     }

@@ -21,6 +21,7 @@ StyledText {
     }
 
     Behavior on fill { // Leaky leaky, no good
+        enabled: Appearance.animationsEnabled
         NumberAnimation {
             duration: Appearance?.animation.elementMoveFast.duration
             easing.type: Appearance?.animation.elementMoveFast.type ?? Easing.BezierSpline

@@ -25,6 +25,7 @@ Item {
         color: fieldArea.containsMouse ? Appearance.colors.colSecondaryContainerHover
                                        : Appearance.colors.colSecondaryContainer
         Behavior on color {
+            enabled: Appearance.animationsEnabled
             animation: Appearance.animation.elementMoveFast.colorAnimation.createObject(this)
         }
         RowLayout {
@@ -52,6 +53,7 @@ Item {
                 color: Appearance.colors.colOnSecondaryContainer
                 rotation: popup.visible ? 180 : 0
                 Behavior on rotation {
+                    enabled: Appearance.animationsEnabled
                     animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
                 }
             }
@@ -99,6 +101,7 @@ Item {
         onOpened: searchField.forceActiveFocus()
 
         enter: Transition {
+            enabled: Appearance.animationsEnabled
             PropertyAnimation {
                 properties: "opacity"; to: 1
                 duration: Appearance.animation.elementMoveFast.duration
@@ -107,6 +110,7 @@ Item {
             }
         }
         exit: Transition {
+            enabled: Appearance.animationsEnabled
             PropertyAnimation {
                 properties: "opacity"; to: 0
                 duration: Appearance.animation.elementMoveFast.duration

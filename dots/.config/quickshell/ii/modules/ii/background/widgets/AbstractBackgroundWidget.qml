@@ -25,10 +25,12 @@ AbstractWidget {
     visible: opacity > 0
     opacity: (GlobalStates.screenLocked && !visibleWhenLocked) ? 0 : 1
     Behavior on opacity {
+        enabled: Appearance.animationsEnabled
         animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
     }
     scale: (draggable && containsPress) ? 1.05 : 1
     Behavior on scale {
+        enabled: Appearance.animationsEnabled
         animation: Appearance.animation.elementResize.numberAnimation.createObject(this)
     }
 

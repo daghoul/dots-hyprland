@@ -25,6 +25,7 @@ Item {
         scale = 1
     }
     Behavior on scale {
+        enabled: Appearance.animationsEnabled
         animation: Appearance.animation.elementMoveEnter.numberAnimation.createObject(this)
     }
 
@@ -35,6 +36,7 @@ Item {
         visible: Config.options.overlay.darkenScreen && opacity > 0
         opacity: (GlobalStates.overlayOpen && root.scale !== initScale) ? 1 : 0
         Behavior on opacity {
+            enabled: Appearance.animationsEnabled
             animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
         }
     }

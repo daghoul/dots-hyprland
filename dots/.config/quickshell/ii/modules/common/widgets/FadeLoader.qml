@@ -12,6 +12,7 @@ Loader {
     active: opacity > 0
 
     Behavior on opacity {
+        enabled: Appearance.animationsEnabled
         id: opacityBehavior
         animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
     }

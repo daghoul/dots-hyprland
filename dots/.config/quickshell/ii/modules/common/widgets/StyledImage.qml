@@ -11,6 +11,7 @@ Image {
     visible: opacity > 0
     opacity: (status === Image.Ready) ? 1 : 0
     Behavior on opacity {
+        enabled: Appearance.animationsEnabled
         animation: Appearance.animation.elementMoveEnter.numberAnimation.createObject(this)
     }
 

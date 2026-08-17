@@ -42,6 +42,7 @@ Item {
             }
 
             transitions: Transition {
+                enabled: Appearance.animationsEnabled
                 AnchorAnimation {
                     duration: Appearance.animation.elementMoveFast.duration
                     easing.type: Appearance.animation.elementMoveFast.type

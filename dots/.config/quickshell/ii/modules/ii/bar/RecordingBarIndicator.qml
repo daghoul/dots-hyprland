@@ -56,7 +56,8 @@ RippleButton {
     ]
 
     transitions: [
-        Transition {
+        Transition { 
+            enabled: Appearance.animationsEnabled
             from: "hidden"
             to: "shown"
             SequentialAnimation {
@@ -64,20 +65,21 @@ RippleButton {
                 NumberAnimation {
                     target: root
                     property: "scale"
-                    duration: Appearance.animationsEnabled ? 350 : 0
+                    duration: 350
                     easing.type: Easing.OutBack
                     easing.overshoot: 1.5
                 }
             }
         },
         Transition {
+            enabled: Appearance.animationsEnabled
             from: "shown"
             to: "hidden"
             SequentialAnimation {
                 NumberAnimation {
                     target: root
                     property: "scale"
-                    duration: Appearance.animationsEnabled ? 350 : 0
+                    duration: 350
                     easing.type: Easing.InBack
                     easing.overshoot: 1.5
                 }
@@ -128,15 +130,17 @@ RippleButton {
                 rotation: root.hovered ? 180 : 0
 
                 Behavior on scale {
+                    enabled: Appearance.animationsEnabled
                     NumberAnimation {
-                        duration: Appearance.animationsEnabled ? 250 : 0
+                        duration: 250
                         easing.type: Easing.OutBack
                     }
                 }
 
                 Behavior on rotation {
+                    enabled: Appearance.animationsEnabled
                     NumberAnimation {
-                        duration: Appearance.animationsEnabled ? 300 : 0
+                        duration: 300
                         easing.type: Easing.OutCubic
                     }
                 }
@@ -173,15 +177,17 @@ RippleButton {
                 rotation: root.hovered ? 180 : 0
 
                 Behavior on scale {
+                    enabled: Appearance.animationsEnabled
                     NumberAnimation {
-                        duration: Appearance.animationsEnabled ? 250 : 0
+                        duration: 250
                         easing.type: Easing.OutBack
                     }
                 }
 
                 Behavior on rotation {
+                    enabled: Appearance.animationsEnabled
                     NumberAnimation {
-                        duration: Appearance.animationsEnabled ? 300 : 0
+                        duration: 300
                         easing.type: Easing.OutCubic
                     }
                 }

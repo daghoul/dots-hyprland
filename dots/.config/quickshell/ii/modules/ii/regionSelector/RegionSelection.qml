@@ -545,9 +545,11 @@ PanelWindow {
                 }
             }
             Behavior on opacity {
+                enabled: Appearance.animationsEnabled
                 animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
             }
             Behavior on anchors.bottomMargin {
+                enabled: Appearance.animationsEnabled
                 animation: Appearance.animation.elementMove.numberAnimation.createObject(this)
             }
             spacing: 6

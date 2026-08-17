@@ -71,6 +71,7 @@ TabButton {
                 }
             }
             transitions: Transition {
+                enabled: Appearance.animationsEnabled
                 AnchorAnimation {
                     duration: Appearance.animation.elementMoveFast.duration
                     easing.type: Appearance.animation.elementMoveFast.type
@@ -86,6 +87,7 @@ TabButton {
             }
 
             Behavior on color {
+                enabled: Appearance.animationsEnabled
                 animation: Appearance.animation.elementMoveFast.colorAnimation.createObject(this)
             }
         }
@@ -109,6 +111,7 @@ TabButton {
                 color: toggled ? Appearance.m3colors.m3onSecondaryContainer : Appearance.colors.colOnLayer1
 
                 Behavior on color {
+                    enabled: Appearance.animationsEnabled
                     animation: Appearance.animation.elementMoveFast.colorAnimation.createObject(this)
                 }
             }
@@ -135,6 +138,7 @@ TabButton {
                 }
             }
             transitions: Transition {
+                enabled: Appearance.animationsEnabled
                 AnchorAnimation {
                     duration: Appearance.animation.elementMoveFast.duration
                     easing.type: Appearance.animation.elementMoveFast.type

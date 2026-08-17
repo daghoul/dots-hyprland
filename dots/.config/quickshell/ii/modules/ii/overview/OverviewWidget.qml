@@ -322,21 +322,27 @@ Item {
                 border.width: 2
                 border.color: root.activeBorderColor
                 Behavior on x {
+                    enabled: Appearance.animationsEnabled
                     animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
                 }
                 Behavior on y {
+                    enabled: Appearance.animationsEnabled
                     animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
                 }
                 Behavior on topLeftRadius {
+                    enabled: Appearance.animationsEnabled
                     animation: Appearance.animation.elementMoveEnter.numberAnimation.createObject(this)
                 }
                 Behavior on topRightRadius {
+                    enabled: Appearance.animationsEnabled
                     animation: Appearance.animation.elementMoveEnter.numberAnimation.createObject(this)
                 }
                 Behavior on bottomLeftRadius {
+                    enabled: Appearance.animationsEnabled
                     animation: Appearance.animation.elementMoveEnter.numberAnimation.createObject(this)
                 }
                 Behavior on bottomRightRadius {
+                    enabled: Appearance.animationsEnabled
                     animation: Appearance.animation.elementMoveEnter.numberAnimation.createObject(this)
                 }
             }

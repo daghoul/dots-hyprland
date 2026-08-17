@@ -45,12 +45,15 @@ RadioButton {
                 opacity: checked ? 1 : 0
 
                 Behavior on opacity {
+                    enabled: Appearance.animationsEnabled
                     animation: Appearance?.animation.elementMoveFast.numberAnimation.createObject(this)
                 }
                 Behavior on width {
+                    enabled: Appearance.animationsEnabled
                     animation: Appearance?.animation.elementMove.numberAnimation.createObject(this)
                 }
                 Behavior on height {
+                    enabled: Appearance.animationsEnabled
                     animation: Appearance?.animation.elementMove.numberAnimation.createObject(this)
                 }
 
@@ -66,12 +69,15 @@ RadioButton {
                 opacity: root.hovered ? 0.1 : 0
 
                 Behavior on opacity {
+                    enabled: Appearance.animationsEnabled
                     animation: Appearance?.animation.elementMoveFast.numberAnimation.createObject(this)
                 }
                 Behavior on width {
+                    enabled: Appearance.animationsEnabled
                     animation: Appearance?.animation.elementMove.numberAnimation.createObject(this)
                 }
                 Behavior on height {
+                    enabled: Appearance.animationsEnabled
                     animation: Appearance?.animation.elementMove.numberAnimation.createObject(this)
                 }
             }

@@ -65,12 +65,14 @@ Slider {
     to: 1
 
     Behavior on value { // This makes the adjusted value (like volume) shift smoothly
+        enabled: Appearance.animationsEnabled
         SmoothedAnimation {
             velocity: Appearance.animation.elementMoveFast.velocity
         }
     }
 
     Behavior on handleMargins {
+        enabled: Appearance.animationsEnabled
         animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
     }
 
@@ -85,6 +87,7 @@ Slider {
         color: normalizedValue > root.visualPosition ? root.dotColor : root.dotColorHighlighted
 
         Behavior on color {
+            enabled: Appearance.animationsEnabled
             animation: Appearance.animation.elementMoveFast.colorAnimation.createObject(this)
         }
     }
@@ -208,6 +211,7 @@ Slider {
         color: root.handleColor
 
         Behavior on implicitWidth {
+            enabled: Appearance.animationsEnabled
             animation: Appearance?.animation.elementMoveFast.numberAnimation.createObject(this)
         }
 

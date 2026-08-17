@@ -18,9 +18,11 @@ RippleButton {
     scale: !target.atYEnd ? 1 : 0.7
     visible: opacity > 0
     Behavior on opacity {
+        enabled: Appearance.animationsEnabled
         animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
     }
     Behavior on scale {
+        enabled: Appearance.animationsEnabled
         animation: Appearance.animation.elementResize.numberAnimation.createObject(this)
     }
 

@@ -85,9 +85,11 @@ Item {
         color: Appearance.colors.colPrimary
 
         Behavior on topLeftRadius {
+            enabled: Appearance.animationsEnabled
             animation: Appearance.animation.elementMove.numberAnimation.createObject(this)
         }
         Behavior on implicitWidth {
+            enabled: Appearance.animationsEnabled
             animation: Appearance.animation.elementMove.numberAnimation.createObject(this)
         }
 

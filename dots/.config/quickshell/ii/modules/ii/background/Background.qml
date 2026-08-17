@@ -68,6 +68,7 @@ Variants {
             return (GlobalStates.screenLocked && shouldBlur) ? Appearance.colors.colOnLayer0 : CF.ColorUtils.colorWithLightness(Appearance.colors.colPrimary, (dominantColorIsDark ? 0.8 : 0.12));
         }
         Behavior on colText {
+            enabled: Appearance.animationsEnabled
             animation: Appearance.animation.elementMoveFast.colorAnimation.createObject(this)
         }
 
@@ -89,6 +90,7 @@ Variants {
             return CF.ColorUtils.mix(Appearance.colors.colLayer0, Appearance.colors.colPrimary, 0.75);
         }
         Behavior on color {
+            enabled: Appearance.animationsEnabled
             animation: Appearance.animation.elementMoveFast.colorAnimation.createObject(this)
         }
 
@@ -183,14 +185,16 @@ Variants {
                 source: bgRoot.wallpaperSafetyTriggered ? "" : bgRoot.wallpaperPath
                 fillMode: Image.PreserveAspectCrop
                 Behavior on x {
+                    enabled: Appearance.animationsEnabled
                     NumberAnimation {
-                        duration: Appearance.animationsEnabled ? 600 : 0
+                        duration: 600
                         easing.type: Easing.OutCubic
                     }
                 }
                 Behavior on y {
+                    enabled: Appearance.animationsEnabled
                     NumberAnimation {
-                        duration: Appearance.animationsEnabled ? 600 : 0
+                        duration: 600
                         easing.type: Easing.OutCubic
                     }
                 }
@@ -204,9 +208,10 @@ Variants {
                 anchors.fill: wallpaper
                 scale: GlobalStates.screenLocked ? Config.options.lock.blur.extraZoom : 1
                 Behavior on scale {
+                    enabled: Appearance.animationsEnabled
                     NumberAnimation {
                         id: scaleAnim
-                        duration: Appearance.animationsEnabled ? 400 : 0
+                        duration: 400
                         easing.type: Easing.BezierSpline
                         easing.bezierCurve: Appearance.animationCurves.expressiveDefaultSpatial
                     }
@@ -240,7 +245,8 @@ Variants {
                 x: wallpaperTotalOffsetX * parallaxFactor * !locked
                 y: wallpaperTotalOffsetY * parallaxFactor * !locked
 
-                transitions: Transition {
+                transitions: Transition { 
+                    enabled: Appearance.animationsEnabled
                     PropertyAnimation {
                         properties: "width,height"
                         duration: Appearance.animation.elementMove.duration

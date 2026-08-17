@@ -16,6 +16,7 @@ AbstractQuickPanel {
     // Sizes
     implicitHeight: (editMode ? contentItem.implicitHeight : usedRows.implicitHeight) + root.padding * 2
     Behavior on implicitHeight {
+        enabled: Appearance.animationsEnabled
         animation: Appearance.animation.elementMove.numberAnimation.createObject(this)
     }
     property real spacing: 6

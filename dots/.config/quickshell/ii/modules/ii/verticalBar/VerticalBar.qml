@@ -109,9 +109,11 @@ Scope {
                             rightMargin: 0
                         }
                         Behavior on anchors.leftMargin {
+                            enabled: Appearance.animationsEnabled
                             animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
                         }
                         Behavior on anchors.rightMargin {
+                            enabled: Appearance.animationsEnabled
                             animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
                         }
 

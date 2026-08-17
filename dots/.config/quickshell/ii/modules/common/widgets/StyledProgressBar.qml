@@ -22,10 +22,12 @@ ProgressBar {
     property real waveFps: 60
 
     Behavior on waveAmplitudeMultiplier {
+        enabled: Appearance.animationsEnabled
         animation: Appearance?.animation.elementMoveFast.numberAnimation.createObject(this)
     }
 
     Behavior on value {
+        enabled: Appearance.animationsEnabled
         animation: Appearance?.animation.elementMoveEnter.numberAnimation.createObject(this)
     }
     

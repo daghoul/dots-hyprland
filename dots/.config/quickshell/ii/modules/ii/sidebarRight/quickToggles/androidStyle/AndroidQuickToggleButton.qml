@@ -41,9 +41,11 @@ GroupButton {
     enableImplicitWidthAnimation: !editMode && root.mouseArea.containsMouse
     enableImplicitHeightAnimation: !editMode && root.mouseArea.containsMouse
     Behavior on baseWidth {
+        enabled: Appearance.animationsEnabled
         animation: Appearance.animation.elementMove.numberAnimation.createObject(this)
     }
     Behavior on baseHeight {
+        enabled: Appearance.animationsEnabled
         animation: Appearance.animation.elementMove.numberAnimation.createObject(this)
     }
     opacity: 0
@@ -51,6 +53,7 @@ GroupButton {
         opacity = 1
     }
     Behavior on opacity {
+        enabled: Appearance.animationsEnabled
         animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
     }
 
@@ -110,9 +113,11 @@ GroupButton {
                 }
 
                 Behavior on radius {
+                    enabled: Appearance.animationsEnabled
                     animation: Appearance.animation.elementMove.numberAnimation.createObject(this)
                 }
                 Behavior on color {
+                    enabled: Appearance.animationsEnabled
                     animation: Appearance.animation.elementMoveFast.colorAnimation.createObject(this)
                 }
 
@@ -132,6 +137,7 @@ GroupButton {
                         radius: iconBackground.radius
                         color: ColorUtils.transparentize(root.colIcon, iconMouseArea.containsPress ? 0.88 : iconMouseArea.containsMouse ? 0.95 : 1)
                         Behavior on color {
+                            enabled: Appearance.animationsEnabled
                             animation: Appearance.animation.elementMoveFast.colorAnimation.createObject(this)
                         }
                     }

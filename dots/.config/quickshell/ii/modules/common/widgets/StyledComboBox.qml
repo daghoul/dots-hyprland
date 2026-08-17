@@ -24,6 +24,7 @@ ComboBox {
         color: (root.down && !root.popup.visible) ? root.colBackgroundActive : root.hovered ? root.colBackgroundHover : root.colBackground
 
         Behavior on color {
+            enabled: Appearance.animationsEnabled
             animation: Appearance.animation.elementMoveFast.colorAnimation.createObject(this)
         }
 
@@ -43,6 +44,7 @@ ComboBox {
 
         rotation: root.popup.visible ? 180 : 0
         Behavior on rotation {
+            enabled: Appearance.animationsEnabled
             animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
         }
     }
@@ -111,6 +113,7 @@ ComboBox {
             color: itemDelegate.color
 
             Behavior on color {
+                enabled: Appearance.animationsEnabled
                 animation: Appearance.animation.elementMoveFast.colorAnimation.createObject(this)
             }
 
@@ -163,7 +166,8 @@ ComboBox {
         height: Math.min(listView.contentHeight + topPadding + bottomPadding, 300)
         padding: 8
 
-        enter: Transition {
+        enter: Transition { 
+            enabled: Appearance.animationsEnabled
             PropertyAnimation {
                 properties: "opacity"
                 to: 1
@@ -173,7 +177,8 @@ ComboBox {
             }
         }
 
-        exit: Transition {
+        exit: Transition { 
+            enabled: Appearance.animationsEnabled
             PropertyAnimation {
                 properties: "opacity"
                 to: 0

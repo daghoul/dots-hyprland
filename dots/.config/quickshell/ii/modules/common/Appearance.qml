@@ -274,7 +274,7 @@ Singleton {
 
     animation: QtObject {
         property QtObject elementMove: QtObject {
-            property int duration: root.animationsEnabled ? animationCurves.expressiveDefaultSpatialDuration : 0
+            property int duration: animationCurves.expressiveDefaultSpatialDuration
             property int type: Easing.BezierSpline
             property list<real> bezierCurve: animationCurves.expressiveDefaultSpatial
             property int velocity: 650
@@ -288,7 +288,7 @@ Singleton {
         }
 
         property QtObject elementMoveSmall: QtObject {
-            property int duration: root.animationsEnabled ? animationCurves.expressiveFastSpatialDuration : 0
+            property int duration: animationCurves.expressiveFastSpatialDuration
             property int type: Easing.BezierSpline
             property list<real> bezierCurve: animationCurves.expressiveFastSpatial
             property int velocity: 650
@@ -302,7 +302,7 @@ Singleton {
         }
 
         property QtObject elementMoveEnter: QtObject {
-            property int duration: root.animationsEnabled ? 400 : 0
+            property int duration: 400
             property int type: Easing.BezierSpline
             property list<real> bezierCurve: animationCurves.emphasizedDecel
             property int velocity: 650
@@ -317,7 +317,7 @@ Singleton {
         }
 
         property QtObject elementMoveExit: QtObject {
-            property int duration: root.animationsEnabled ? 200 : 0
+            property int duration: 200
             property int type: Easing.BezierSpline
             property list<real> bezierCurve: animationCurves.emphasizedAccel
             property int velocity: 650
@@ -332,7 +332,7 @@ Singleton {
         }
 
         property QtObject elementMoveFast: QtObject {
-            property int duration: root.animationsEnabled ? animationCurves.expressiveEffectsDuration : 0
+            property int duration: animationCurves.expressiveEffectsDuration
             property int type: Easing.BezierSpline
             property list<real> bezierCurve: animationCurves.expressiveEffects
             property int velocity: 850
@@ -350,7 +350,7 @@ Singleton {
         }
 
         property QtObject elementResize: QtObject {
-            property int duration: root.animationsEnabled ? 300 : 0
+            property int duration: 300
             property int type: Easing.BezierSpline
             property list<real> bezierCurve: animationCurves.emphasized
             property int velocity: 650
@@ -365,7 +365,7 @@ Singleton {
         }
 
         property QtObject clickBounce: QtObject {
-            property int duration: root.animationsEnabled ? 400 : 0
+            property int duration: 400
             property int type: Easing.BezierSpline
             property list<real> bezierCurve: animationCurves.expressiveDefaultSpatial
             property int velocity: 850
@@ -378,13 +378,13 @@ Singleton {
         }
         
         property QtObject scroll: QtObject {
-            property int duration: root.animationsEnabled ? 200 : 0
+            property int duration: 200
             property int type: Easing.BezierSpline
             property list<real> bezierCurve: root.animationCurves.standardDecel
         }
 
         property QtObject menuDecel: QtObject {
-            property int duration: root.animationsEnabled ? 350 : 0
+            property int duration: 350
             property int type: Easing.OutExpo
         }
     }

@@ -26,11 +26,13 @@ Rectangle {
     radius: 4
 
     Behavior on color {
+        enabled: Appearance.animationsEnabled
         animation: Appearance.animation.elementMoveFast.colorAnimation.createObject(this)
     }
 
     visible: opacity > 0
     Behavior on opacity {
+        enabled: Appearance.animationsEnabled
         animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
     }
     x: clientDimensions.at[0]

@@ -282,6 +282,7 @@ Scope {
         implicitWidth: descriptionLabelText.implicitWidth + 15 * 2
 
         Behavior on implicitWidth {
+            enabled: Appearance.animationsEnabled
             animation: Appearance.animation.elementMove.numberAnimation.createObject(this)
         }
 

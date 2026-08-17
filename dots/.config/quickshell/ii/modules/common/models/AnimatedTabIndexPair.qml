@@ -9,16 +9,18 @@ QtObject {
 
     property real idx1: index
     property real idx2: index
-    property int idx1Duration: Appearance.animationsEnabled ? 100 : 0
-    property int idx2Duration: Appearance.animationsEnabled ? 300 : 0
+    property int idx1Duration: 100
+    property int idx2Duration: 300
 
     Behavior on idx1 {
+        enabled: Appearance.animationsEnabled
         NumberAnimation {
             duration: root.idx1Duration
             easing.type: Easing.OutSine
         }
     }
     Behavior on idx2 {
+        enabled: Appearance.animationsEnabled
         NumberAnimation {
             duration: root.idx2Duration
             easing.type: Easing.OutSine

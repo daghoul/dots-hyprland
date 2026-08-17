@@ -126,7 +126,7 @@ MouseArea { // Notification group area
         anchors.leftMargin: root.xOffset
 
         Behavior on anchors.leftMargin {
-            enabled: !dragManager.dragging
+            enabled: (!dragManager.dragging) && Appearance.animationsEnabled
             NumberAnimation {
                 duration: Appearance.animation.elementMove.duration
                 easing.type: Appearance.animation.elementMove.type
@@ -140,6 +140,7 @@ MouseArea { // Notification group area
             Math.min(80, row.implicitHeight + padding * 2)
 
         Behavior on implicitHeight {
+            enabled: Appearance.animationsEnabled
             id: implicitHeightAnim
             animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
         }
@@ -169,6 +170,7 @@ MouseArea { // Notification group area
                     5 : 0) : 0
                 // spacing: 00
                 Behavior on spacing {
+                    enabled: Appearance.animationsEnabled
                     animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
                 }
 
@@ -234,6 +236,7 @@ MouseArea { // Notification group area
                     // clip: true
                     interactive: false
                     Behavior on spacing {
+                        enabled: Appearance.animationsEnabled
                         animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
                     }
                     model: ScriptModel {

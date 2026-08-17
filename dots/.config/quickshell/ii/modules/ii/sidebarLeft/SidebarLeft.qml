@@ -149,6 +149,7 @@ Scope { // Scope
                 radius: Appearance.rounding.screenRounding - Appearance.sizes.hyprlandGapsOut + 1
 
                 Behavior on width {
+                    enabled: Appearance.animationsEnabled
                     animation: Appearance.animation.elementMove.numberAnimation.createObject(this)
                 }
 

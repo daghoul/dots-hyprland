@@ -24,6 +24,7 @@ StyledFlickable {
     contentWidth: dotsRow.implicitWidth
     contentX: (Math.max(contentWidth - width, 0))
     Behavior on contentX {
+        enabled: Appearance.animationsEnabled
         animation: Appearance.animation.elementMoveEnter.numberAnimation.createObject(this)
     }
 
@@ -38,6 +39,7 @@ StyledFlickable {
         implicitWidth: 2
         implicitHeight: root.charSize
         Behavior on anchors.leftMargin {
+            enabled: Appearance.animationsEnabled
             animation: Appearance.animation.elementMoveEnter.numberAnimation.createObject(cursor)
         }
     }
@@ -84,7 +86,13 @@ StyledFlickable {
                     opacity: 0
                     scale: 0.5
                     Component.onCompleted: {
-                        appearAnim.start();
+                        if (Appearance.animationsEnabled) {
+                            appearAnim.start();
+                        } else {
+                            materialShape.opacity = 1;
+                            materialShape.scale = 1;
+                            materialShape.implicitSize = 18;
+                        }
                     }
                     ParallelAnimation {
                         id: appearAnim
@@ -92,7 +100,7 @@ StyledFlickable {
                             target: materialShape
                             properties: "opacity"
                             to: 1
-                            duration: Appearance.animationsEnabled ? 50 : 0
+                            duration: 50
                             easing.type: Appearance.animation.elementMoveFast.type
                             easing.bezierCurve: Appearance.animation.elementMoveFast.bezierCurve
                         }
@@ -100,7 +108,7 @@ StyledFlickable {
                             target: materialShape
                             properties: "scale"
                             to: 1
-                            duration: Appearance.animationsEnabled ? 200 : 0
+                            duration: 200
                             easing.type: Easing.BezierSpline
                             easing.bezierCurve: Appearance.animationCurves.expressiveFastSpatial
                         }
@@ -116,7 +124,7 @@ StyledFlickable {
                             properties: "color"
                             from: Appearance.colors.colPrimary
                             to: Appearance.colors.colOnLayer1
-                            duration: Appearance.animationsEnabled ? 1000 : 0
+                            duration: 1000
                             easing.type: Appearance.animation.elementMoveFast.type
                             easing.bezierCurve: Appearance.animation.elementMoveFast.bezierCurve
                         }

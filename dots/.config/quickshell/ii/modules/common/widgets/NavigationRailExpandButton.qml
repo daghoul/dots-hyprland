@@ -16,6 +16,7 @@ RippleButton {
 
     rotation: root.parent.expanded ? 0 : -180
     Behavior on rotation {
+        enabled: Appearance.animationsEnabled
         animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
     }
 

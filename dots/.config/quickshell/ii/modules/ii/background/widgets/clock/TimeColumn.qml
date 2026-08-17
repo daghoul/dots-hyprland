@@ -34,6 +34,7 @@ Column {
             }
 
             Behavior on numberSize {
+                enabled: Appearance.animationsEnabled
                 animation: Appearance.animation.elementResize.numberAnimation.createObject(this)
             }
         }

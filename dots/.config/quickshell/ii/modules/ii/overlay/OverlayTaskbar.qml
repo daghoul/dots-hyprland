@@ -23,6 +23,7 @@ Rectangle {
     border.width: 1
 
     Behavior on opacity {
+        enabled: Appearance.animationsEnabled
         animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
     }
 

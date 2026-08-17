@@ -105,6 +105,7 @@ Item {
         visible: opacity > 0
         opacity: root.showAddDialog ? 1 : 0
         Behavior on opacity {
+            enabled: Appearance.animationsEnabled
             NumberAnimation { 
                 duration: Appearance.animation.elementMoveFast.duration
                 easing.type: Appearance.animation.elementMoveFast.type

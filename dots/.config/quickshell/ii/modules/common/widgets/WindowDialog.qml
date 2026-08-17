@@ -24,6 +24,7 @@ Rectangle {
 
     color: root.show ? Appearance.colors.colScrim : ColorUtils.transparentize(Appearance.colors.colScrim)
     Behavior on color {
+        enabled: Appearance.animationsEnabled
         animation: Appearance.animation.elementMoveFast.colorAnimation.createObject(this)
     }
     visible: dialogBackground.implicitHeight > 0
@@ -55,6 +56,7 @@ Rectangle {
         implicitWidth: root.backgroundWidth
         implicitHeight: contentColumn.implicitHeight + dialogBackground.radius * 2
         Behavior on implicitHeight {
+            enabled: Appearance.animationsEnabled
             NumberAnimation {
                 id: dialogBackgroundHeightAnimation
                 duration: Appearance.animation.elementMoveFast.duration
@@ -63,6 +65,7 @@ Rectangle {
             }
         }
         Behavior on y {
+            enabled: Appearance.animationsEnabled
             NumberAnimation {
                 duration: dialogBackgroundHeightAnimation.duration
                 easing.type: dialogBackgroundHeightAnimation.easing.type
@@ -85,6 +88,7 @@ Rectangle {
             spacing: 16
             opacity: root.show ? 1 : 0
             Behavior on opacity {
+                enabled: Appearance.animationsEnabled
                 animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
             }
 

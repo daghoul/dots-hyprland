@@ -72,6 +72,7 @@ DialogListItem {
                 color: Appearance.colors.colOnLayer3
                 rotation: root.expanded ? 180 : 0
                 Behavior on rotation {
+                    enabled: Appearance.animationsEnabled
                     animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
                 }
             }

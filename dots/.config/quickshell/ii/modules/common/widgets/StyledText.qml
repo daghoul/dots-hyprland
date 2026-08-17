@@ -23,7 +23,7 @@ Text {
 
     component Anim: NumberAnimation {
         target: root
-        duration: Appearance.animationsEnabled ? 300 / 2 : 0 
+        duration: 300 / 2
         easing.type: Easing.BezierSpline
         easing.bezierCurve: Appearance.animation.elementMoveFast.bezierCurve
     }
@@ -34,10 +34,10 @@ Text {
     }
 
     Behavior on text {
+        enabled: (root.animateChange) && Appearance.animationsEnabled
         id: textAnimationBehavior
         property real originalX: root.x
         property real originalY: root.y
-        enabled: root.animateChange
 
         SequentialAnimation {
             alwaysRunToEnd: true

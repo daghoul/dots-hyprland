@@ -246,6 +246,7 @@ Item { // Bar content region
                 property color colText: toggled ? Appearance.m3colors.m3onSecondaryContainer : Appearance.colors.colOnLayer0
 
                 Behavior on colText {
+                    enabled: Appearance.animationsEnabled
                     animation: Appearance.animation.elementMoveFast.colorAnimation.createObject(this)
                 }
 
@@ -264,6 +265,7 @@ Item { // Bar content region
                         Layout.fillHeight: true
                         Layout.rightMargin: reveal ? indicatorsRowLayout.realSpacing : 0
                         Behavior on Layout.rightMargin {
+                            enabled: Appearance.animationsEnabled
                             animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
                         }
                         MaterialSymbol {
@@ -277,6 +279,7 @@ Item { // Bar content region
                         Layout.fillHeight: true
                         Layout.rightMargin: reveal ? indicatorsRowLayout.realSpacing : 0
                         Behavior on Layout.rightMargin {
+                            enabled: Appearance.animationsEnabled
                             animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
                         }
                         MaterialSymbol {
@@ -297,6 +300,7 @@ Item { // Bar content region
                         implicitHeight: reveal ? notificationUnreadCount.implicitHeight : 0
                         implicitWidth: reveal ? notificationUnreadCount.implicitWidth : 0
                         Behavior on Layout.rightMargin {
+                            enabled: Appearance.animationsEnabled
                             animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
                         }
                         NotificationUnreadCount {
@@ -308,6 +312,7 @@ Item { // Bar content region
                         Layout.fillHeight: true
                         Layout.rightMargin: reveal ? indicatorsRowLayout.realSpacing : 0
                         Behavior on Layout.rightMargin {
+                            enabled: Appearance.animationsEnabled
                             animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
                         }
                         MaterialSymbol {
@@ -321,6 +326,7 @@ Item { // Bar content region
                         Layout.fillHeight: true
                         Layout.rightMargin: reveal ? indicatorsRowLayout.realSpacing : 0
                         Behavior on Layout.rightMargin {
+                            enabled: Appearance.animationsEnabled
                             animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
                         }
                         MaterialSymbol {

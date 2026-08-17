@@ -41,6 +41,7 @@ Item {
         opacity: shown ? 1 : 0
         visible: opacity > 0
         Behavior on opacity {
+            enabled: Appearance.animationsEnabled
             animation: Appearance?.animation.elementMoveFast.numberAnimation.createObject(this)
         }
 

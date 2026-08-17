@@ -114,8 +114,8 @@ Item { // Wrapper
         color: Appearance.colors.colBackgroundSurfaceContainer
 
         Behavior on implicitHeight {
+            enabled: (GlobalStates.overviewOpen && root.showResults) && Appearance.animationsEnabled
             id: searchHeightBehavior
-            enabled: GlobalStates.overviewOpen && root.showResults
             animation: Appearance.animation.elementMove.numberAnimation.createObject(this)
         }
 
@@ -168,7 +168,7 @@ Item { // Wrapper
                 bottomMargin: 10
                 spacing: 2
                 KeyNavigation.up: searchBar
-                highlightMoveDuration: Appearance.animationsEnabled ? 100 : 0
+                highlightMoveDuration: 100
 
                 onFocusChanged: {
                     if (focus)

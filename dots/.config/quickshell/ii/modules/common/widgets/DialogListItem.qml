@@ -15,6 +15,7 @@ RippleButton {
     implicitWidth: contentItem.implicitWidth + horizontalPadding * 2
     implicitHeight: contentItem.implicitHeight + verticalPadding * 2
     Behavior on implicitHeight {
+        enabled: Appearance.animationsEnabled
         animation: Appearance.animation.elementMove.numberAnimation.createObject(this)
     }
 

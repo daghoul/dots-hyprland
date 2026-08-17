@@ -52,6 +52,7 @@ ListView {
     }
 
     Behavior on contentY {
+        enabled: Appearance.animationsEnabled
         NumberAnimation {
             id: scrollAnim
             alwaysRunToEnd: true
@@ -69,6 +70,7 @@ ListView {
     }
 
     add: Transition {
+        enabled: Appearance.animationsEnabled
         animations: animateAppearance ? [
             Appearance?.animation.elementMove.numberAnimation.createObject(this, {
                 properties: popin ? "opacity,scale" : "opacity",
@@ -79,6 +81,7 @@ ListView {
     }
 
     addDisplaced: Transition {
+        enabled: Appearance.animationsEnabled
         animations: animateAppearance ? [
             Appearance?.animation.elementMove.numberAnimation.createObject(this, {
                 property: "y",
@@ -90,7 +93,8 @@ ListView {
         ] : []
     }
     
-    displaced: Transition {
+    displaced: Transition { 
+        enabled: Appearance.animationsEnabled
         animations: root.animateMovement ? [
             Appearance?.animation.elementMove.numberAnimation.createObject(this, {
                 property: "y",
@@ -102,7 +106,8 @@ ListView {
         ] : []
     }
 
-    move: Transition {
+    move: Transition { 
+        enabled: Appearance.animationsEnabled
         animations: root.animateMovement ? [
             Appearance?.animation.elementMove.numberAnimation.createObject(this, {
                 property: "y",
@@ -113,8 +118,9 @@ ListView {
             }),
         ] : []
     }
-    moveDisplaced: Transition {
-        animations: root.animateMovement ? [
+    moveDisplaced: Transition { 
+        enabled: Appearance.animationsEnabled
+        animations: animateMovement ? [
             Appearance?.animation.elementMove.numberAnimation.createObject(this, {
                 property: "y",
             }),
@@ -125,7 +131,8 @@ ListView {
         ] : []
     }
 
-    remove: Transition {
+    remove: Transition { 
+        enabled: Appearance.animationsEnabled
         animations: animateAppearance ? [
             Appearance?.animation.elementMove.numberAnimation.createObject(this, {
                 property: "x",
@@ -140,6 +147,7 @@ ListView {
 
     // This is movement when something is removed, not removing animation!
     removeDisplaced: Transition { 
+        enabled: Appearance.animationsEnabled 
         animations: animateAppearance ? [
             Appearance?.animation.elementMove.numberAnimation.createObject(this, {
                 property: "y",

@@ -53,7 +53,7 @@ Item { // Notification item area
             target: background.anchors
             property: "leftMargin"
             to: (root.width + root.dismissOvershoot) * (destroyAnimation.left ? -1 : 1)
-            duration: Appearance.animationsEnabled ? Appearance.animation.elementMove.duration : 0 
+            duration: Appearance.animation.elementMove.duration
             easing.type: Appearance.animation.elementMove.type
             easing.bezierCurve: Appearance.animation.elementMove.bezierCurve
         }
@@ -100,6 +100,7 @@ Item { // Notification item area
         visible: opacity > 0
 
         Behavior on opacity {
+            enabled: Appearance.animationsEnabled
             animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
         }
 
@@ -117,9 +118,9 @@ Item { // Notification item area
         anchors.leftMargin: root.xOffset
 
         Behavior on anchors.leftMargin {
-            enabled: !dragManager.dragging
+            enabled: (!dragManager.dragging) && Appearance.animationsEnabled
             NumberAnimation {
-                duration: Appearance.animationsEnabled ? Appearance.animation.elementMove.duration : 0
+                duration: Appearance.animation.elementMove.duration
                 easing.type: Appearance.animation.elementMove.type
                 easing.bezierCurve: Appearance.animationCurves.expressiveFastSpatial
             }
@@ -133,6 +134,7 @@ Item { // Notification item area
 
         implicitHeight: expanded ? (contentColumn.implicitHeight + padding * 2) : summaryRow.implicitHeight
         Behavior on implicitHeight {
+            enabled: Appearance.animationsEnabled
             animation: Appearance.animation.elementMove.numberAnimation.createObject(this)
         }
 
@@ -143,6 +145,7 @@ Item { // Notification item area
             spacing: 3
 
             Behavior on anchors.margins {
+                enabled: Appearance.animationsEnabled
                 animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
             }
 
@@ -165,6 +168,7 @@ Item { // Notification item area
                     visible: opacity > 0
                     Layout.fillWidth: true
                     Behavior on opacity {
+                        enabled: Appearance.animationsEnabled
                         animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
                     }
                     font.pixelSize: root.fontSize
@@ -188,6 +192,7 @@ Item { // Notification item area
                 StyledText { // Notification body (expanded)
                     id: notificationBodyText
                     Behavior on opacity {
+                        enabled: Appearance.animationsEnabled
                         animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
                     }
                     Layout.fillWidth: true
@@ -235,12 +240,15 @@ Item { // Notification item area
                         contentWidth: actionRowLayout.implicitWidth
 
                         Behavior on opacity {
+                            enabled: Appearance.animationsEnabled
                             animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
                         }
                         Behavior on height {
+                            enabled: Appearance.animationsEnabled
                             animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
                         }
                         Behavior on implicitHeight {
+                            enabled: Appearance.animationsEnabled
                             animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
                         }
 

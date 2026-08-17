@@ -19,6 +19,7 @@ RippleButton {
         color: root.enabled ? Appearance.m3colors.m3onSurface : Appearance.m3colors.m3outline
 
         Behavior on color {
+            enabled: Appearance.animationsEnabled
             animation: Appearance.animation.elementMoveFast.colorAnimation.createObject(this)
         }
     }

@@ -117,9 +117,11 @@ Rectangle {
             text: quickSlider.materialSymbol
 
             Behavior on color {
+                enabled: Appearance.animationsEnabled
                 animation: Appearance.animation.elementMoveFast.colorAnimation.createObject(this)
             }
             Behavior on anchors.rightMargin {
+                enabled: Appearance.animationsEnabled
                 animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
             }
         }
@@ -139,6 +141,7 @@ Rectangle {
             text: secondaryMaterialSymbol
 
             Behavior on color {
+                enabled: Appearance.animationsEnabled
                 animation: Appearance.animation.elementMoveFast.colorAnimation.createObject(this)
             }
         }

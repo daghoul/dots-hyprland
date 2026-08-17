@@ -15,9 +15,10 @@ Item {
 
     rotation: -90 + (360 / 60) * root.clockMinute
     Behavior on rotation {
+        enabled: Appearance.animationsEnabled
         animation: RotationAnimation {
             direction: RotationAnimation.Clockwise
-            duration: Appearance.animationsEnabled ? 300 : 0
+            duration: 300
             easing.type: Easing.BezierSpline
             easing.bezierCurve: Appearance.animationCurves.emphasized
         }
@@ -37,10 +38,12 @@ Item {
         color: root.color
 
         Behavior on height {
+            enabled: Appearance.animationsEnabled
             animation: Appearance.animation.elementResize.numberAnimation.createObject(this)
         }
 
         Behavior on x {
+            enabled: Appearance.animationsEnabled
             animation: Appearance.animation.elementResize.numberAnimation.createObject(this)
         }
     }

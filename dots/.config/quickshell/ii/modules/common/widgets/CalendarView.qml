@@ -42,8 +42,13 @@ Item {
     property bool scrolling: false
 
     Behavior on weekDiff {
+        enabled: Appearance.animationsEnabled
         id: weekScrollBehavior
-        animation: Looks.transition.scroll.createObject(this)
+        animation: NumberAnimation {
+                duration: 250
+                easing.type: Easing.BezierSpline
+                easing.bezierCurve: [0.0, 0.0, 0.25, 1.0, 1, 1]
+            }
     }
     Timer {
         id: scrollAnimationCheckTimer

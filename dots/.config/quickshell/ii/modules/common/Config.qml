@@ -531,6 +531,7 @@ Singleton {
                 property string savePath: Directories.videos.replace("file://","") // strip "file://"
                 property bool enableGPU: false
                 property string gpuDevice: "/dev/dri/renderD128"
+                property bool disableDamage: false
             }
 
             property JsonObject screenSnip: JsonObject {

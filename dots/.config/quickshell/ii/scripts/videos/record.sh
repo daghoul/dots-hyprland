@@ -17,6 +17,7 @@ read_config() {
 SAVE_PATH=$(read_config "savePath" "$HOME/Videos")
 GPU_ENABLED=$(read_config "enableGPU" "false")
 GPU_DEVICE=$(read_config "gpuDevice" "/dev/dri/renderD128")
+DISABLE_DAMAGE=$(read_config "disableDamage" "false")
 
 RECORDING_DIR="$SAVE_PATH"
 
@@ -67,14 +68,19 @@ done
 # VA-API recording support, fallback to cpu if not supported.
 CODEC=""
 ENCODE_DEVICE=""
+NO_DAMAGE=""
+if [ "$DISABLE_DAMAGE" == "true" ]; then
+  NO_DAMAGE="--no-damage"
+  echo "Using no damage (--no-damage)" # for debugging
+fi
 if [[ "$GPU_ENABLED" == "true" ]] && [ -e "$GPU_DEVICE" ]; then
-    CODEC="h264_vaapi"
-    ENCODE_DEVICE="-d $GPU_DEVICE"
-    echo "Using VA-API GPU encoding (h264_vaapi)" # for debugging
+  CODEC="h264_vaapi"
+  ENCODE_DEVICE="-d $GPU_DEVICE"
+  echo "Using VA-API GPU encoding (h264_vaapi)" # for debugging
 else
-    CODEC="libx264"
-    ENCODE_DEVICE=""
-    echo "Using CPU encoding (libx264)" # debugging
+  CODEC="libx264"
+  ENCODE_DEVICE=""
+  echo "Using CPU encoding (libx264)" # debugging
 fi
 
 start_recording() {
@@ -82,6 +88,9 @@ start_recording() {
   cmd+=("-c" "$CODEC")
   if [[ -n "$ENCODE_DEVICE" ]]; then
     cmd+=($ENCODE_DEVICE)
+  fi
+  if [[ -n "$NO_DAMAGE" ]]; then
+    cmd+=($NO_DAMAGE)
   fi
 
   "${cmd[@]}" &

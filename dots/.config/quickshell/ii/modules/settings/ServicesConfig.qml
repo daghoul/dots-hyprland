@@ -60,6 +60,7 @@ ContentPage {
         title: Translation.tr("Screen recording")
 
         ConfigRow {
+            uniform: true
             ConfigSwitch {
                 text: Translation.tr("Use GPU for recording")
                 buttonIcon: "developer_board"
@@ -68,19 +69,32 @@ ContentPage {
                     Config.options.screenRecord.enableGPU = checked;
                 }
                 StyledToolTip {
-                    text: Translation.tr("Utilizes VA-API for recording, disable to use CPU instead")
+                    text: Translation.tr("Utilizes VA-API (h264) for recording, disable to use CPU instead")
                 }
             }
 
-            MaterialTextArea {
-                Layout.fillWidth: true
-                placeholderText: Translation.tr("Device path for GPU encoding")
-                text: Config.options.screenRecord.gpuDevice || "/dev/dri/renderD128"
+            ConfigSwitch {
+                text: Translation.tr("Disable damage")
+                buttonIcon: "settings_video_camera"
                 enabled: Config.options.screenRecord.enableGPU
-                wrapMode: TextEdit.Wrap
-                onTextChanged: {
-                    Config.options.screenRecord.gpuDevice = text;
+                checked: Config.options.screenRecord.disableDamage
+                onCheckedChanged: {
+                    Config.options.screenRecord.disableDamage = checked;
                 }
+                StyledToolTip {
+                    text: Translation.tr("By default, recorder (wf-recorder) captures frames only when the screen changes, saving space but creating variable-frame-rate videos.\nEnabling this option disables the optimization, capturing continuous frames regardless of screen activity.")
+                }
+            }
+        }
+
+        MaterialTextArea {
+            Layout.fillWidth: true
+            placeholderText: Translation.tr("Device path for GPU encoding")
+            text: Config.options.screenRecord.gpuDevice || "/dev/dri/renderD128"
+            enabled: Config.options.screenRecord.enableGPU
+            wrapMode: TextEdit.Wrap
+            onTextChanged: {
+                Config.options.screenRecord.gpuDevice = text;
             }
         }
 
